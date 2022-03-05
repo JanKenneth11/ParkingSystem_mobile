@@ -19,6 +19,7 @@
             </ion-toolbar>
         </ion-header>
          <ion-content force-overscroll="false" overflow-scroll="false" class="ps-background-color ion-padding">
+             <ion-page>
              <section id="dashboard">
                 <div class="ps-background-color">
                     <ion-row class="ion-align-items-center" style="gap:15px; padding: 0 10px;">
@@ -61,6 +62,7 @@
                     <ion-button class="ps-btn-footer-action ps-input-border-radius" expand="block" size="large" color="warning" :disabled="!selectedSlot.id"  @click="proceed">Proceed</ion-button>
                 </div>
              </section>
+             </ion-page>
          </ion-content>
     </ion-page>
 </template>

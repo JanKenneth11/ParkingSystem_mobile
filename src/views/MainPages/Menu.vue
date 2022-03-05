@@ -151,12 +151,13 @@ export default {
                     {
                         text: 'Logout',
                         handler: () => {
+                            var vm = this
                             // console.log(data);
                             this.$axios.post('user/v1/logout').then(({data}) => {
                                 if(data){
                                     // console.log(data);
                                     localStorage.removeItem("token") 
-                                    this.$router.push('/login')
+                                    vm.$router.push('/login')
                                     menuController.close("app-menu");
                                 }
                             })

@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <Menu></Menu>
+    <Menu v-if="checkUser"></Menu>
     <ion-router-outlet id="main-content"/>
   </ion-app>
 </template>
@@ -38,6 +38,9 @@ export default {
         // Android, a denial isn't permanent unless the user checks the "Don't
         // ask again" box.) We can ask again at the next relevant opportunity.
       }
+    },
+    checkUser(){
+      return this.$store.getters.user.id ? true : false
     }
   }
 };

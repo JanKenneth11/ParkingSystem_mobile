@@ -1,5 +1,5 @@
 <template>
-    <ion-app>
+    <ion-page>
         <ion-content class="ps-background-image" force-overscroll="false">
             <section id="main">
                 <div class="app-login">
@@ -29,15 +29,15 @@
                 </div>
             </section>
         </ion-content>
-    </ion-app>
+    </ion-page>
 </template>
 <script>
-import {IonApp, IonContent, IonInput, IonLabel, IonItem, IonButton, IonIcon,IonImg } from '@ionic/vue';
+import { IonPage,IonContent, IonInput, IonLabel, IonItem, IonButton, IonIcon,IonImg } from '@ionic/vue';
 import {personCircleOutline, lockClosed, eyeSharp, eyeOffSharp} from 'ionicons/icons';
 
 export default {
     components: {
-        IonApp, IonContent, IonInput, IonItem, IonButton, IonIcon, IonLabel,IonImg
+         IonPage,IonContent, IonInput, IonItem, IonButton, IonIcon, IonLabel,IonImg
     },
     data:() => ({
         personCircleOutline,
