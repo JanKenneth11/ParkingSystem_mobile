@@ -1,29 +1,30 @@
 <template>
     <ion-app>
-        <ion-content force-overscroll="false">
+        <ion-content class="ps-background-image" force-overscroll="false">
             <section id="main">
                 <div class="app-login">
                     <div class="app-logo">
-                        <!-- <img src=""/> -->
+                        <ion-img src="/assets/img/Logo-big.png"></ion-img>
                     </div>
-                    <div class="app-login-form ion-text-center">
-                        <h1>Login</h1>
-                        <ion-item lines="none">
-                            <!-- <ion-label position="floating">Floating Label</ion-label> -->
-                            
-                            <ion-input v-model="input.email" type="email" placeholder="Enter Email" required></ion-input>
-                            <ion-icon  :icon="personCircleOutline" slot="start"></ion-icon>
-                        </ion-item>
-                        <ion-item lines="none">
-                            <!-- <ion-label position="floating">Floating Label</ion-label> -->
-                            <ion-icon  :icon="lockClosed" slot="start"></ion-icon>
-                            <ion-input v-model="input.password" :type="passwordStatus ? 'text' : 'password'" placeholder="Enter Password" required></ion-input>
-                            <ion-icon  :icon="passwordStatus ? eyeSharp : eyeOffSharp" slot="end" @click="passwordStatus = !passwordStatus"></ion-icon>
-
-                        </ion-item>
+                    <div class="app-login-form">
                         <div>
-                            <ion-button @click="mobileLogin" expand="block">Sign In</ion-button>
+                            <ion-label color="light">Email</ion-label>
+                            <ion-item class="ps-input-border-radius" lines="none">
+                                <ion-input v-model="input.email" type="email" placeholder="Enter Email" required></ion-input>
+                                <!-- <ion-icon  :icon="personCircleOutline" slot="start"></ion-icon> -->
+                            </ion-item>
                         </div>
+                        <div>
+                            <ion-label color="light">Password</ion-label>
+                            <ion-item class="ps-input-border-radius" lines="none">
+                                <!-- <ion-icon :icon="lockClosed" slot="start"></ion-icon> -->
+                                <ion-input v-model="input.password" :type="passwordStatus ? 'text' : 'password'" placeholder="Enter Password" required></ion-input>
+                                <ion-icon  :icon="passwordStatus ? eyeSharp : eyeOffSharp" slot="end" @click="passwordStatus = !passwordStatus"></ion-icon>
+                            </ion-item>
+                        </div>
+                    </div>
+                    <div>
+                        <ion-button class="ps-btn-footer-action ps-input-border-radius" color="warning" @click="mobileLogin" expand="block" size="large">Sign In</ion-button>
                     </div>
                 </div>
             </section>
@@ -31,12 +32,12 @@
     </ion-app>
 </template>
 <script>
-import {IonApp, IonContent, IonInput, IonItem, IonButton, IonIcon, toastController, loadingController } from '@ionic/vue';
+import {IonApp, IonContent, IonInput, IonLabel, IonItem, IonButton, IonIcon,IonImg } from '@ionic/vue';
 import {personCircleOutline, lockClosed, eyeSharp, eyeOffSharp} from 'ionicons/icons';
 
 export default {
     components: {
-        IonApp, IonContent, IonInput, IonItem, IonButton, IonIcon, 
+        IonApp, IonContent, IonInput, IonItem, IonButton, IonIcon, IonLabel,IonImg
     },
     data:() => ({
         personCircleOutline,
@@ -49,105 +50,70 @@ export default {
             password: '1234'
         },
         input: {
-            email: '',
-            password: '',
+            email: 'dan@gmail.com',
+            password: '1234'
         }
     }),
     methods: {
         mobileLogin(){
-            console.log(this.static)
-            console.log(this.input)
-            if(this.static.email == this.input.email && this.static.password == this.input.password){
-                this.presentLoadingWithOptions()
-                // console.log('passed');
-                // this.$router.push('/main')
-            }
-            if (this.input.email == '' && this.input.password == '') {
-                this.errorToast('Please provide credentials');
-            } else {
-                if(this.input.email != this.static.email){
-                    this.errorToast('Invalid email')
-                    // console.log('una na if');
-                } 
-                if (this.input.password != this.static.password) {
-                    this.errorToast('Invalid pass')
-                    // console.log('panduwa');
-                }
-                if (this.input.email != this.static.email && this.input.password != this.static.password) {
-                    this.errorToast('Invalid email and password')
-                    // console.log('last');
-                } 
-            }
-            
-            // console.log(this.static)
-            // console.log(this.input)
-        },
-        async errorToast(custommessage) {
-            const toast = await toastController
-                .create({
-                header: 'There was a problem in logging in',
-                message: custommessage,
-                duration: 2000,
-                color: 'danger',
-                position: 'top',
-                keyboardClose: true,
-                })
-            return toast.present();
-
-        },
-
-         async presentLoadingWithOptions() {
-            const loading = await loadingController
-                .create({
-                spinner: 'circular',
-                showBackdrop: true,
-                // duration: 1000,
-                translucent: true,
-                });
-            loading.present();
-            var vm = this;
             this.$axios.post('user/login', this.input).then(({data}) => {
                 localStorage.setItem("token", data.token);
-                loading.dismiss();
-                vm.$router.push('/main');
-                // if(data.error){
-                //     console.log(data)
-                //     // md_error.present()
-                // }
-                // else{
-                //     // modal_success.show
-                //     console.log(data)
-                // }
-                console.log(data);
+                this.$router.push('/main');
             })
-
-            // setTimeout(function() {
-                // loading.onDidDismiss().then(() => {
-                // vm.$router.push('/main')
-            // });
-                
-            // }, 1000);
         },
     }
 }
 </script>
 <style>
+.app-logo {
+    margin-top: 67px;
+    margin-bottom: 80px;
+}
+.app-logo ion-img {
+    width: fit-content;
+    margin: 0 auto;
+}
+.app-login > div:last-child {
+    margin-top: 75%;
+}
 .app-login-form {
     padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
 }
-.app-login-form h1 {
-    margin-bottom: 30px;
-    font-weight: 900;
+.app-login-form div ion-label {
+    font-size: 18px;
 }
-.app-login-form ion-button {
+.app-login-form div ion-item {
+    margin-top: 7px;
+}
+.ps-btn-footer-action {
+    padding: 0 15px;
     margin-top: 25px;
     font-size: 18px;
-    letter-spacing: 2.5px;
+    --border-radius: 30px
 }
 .app-login-form ion-item ion-input {
-    font-size: 20px;
+    font-size: 14px;
 }
 .app-login-form ion-icon {
-    opacity: .5;
+    color: #25384A;
+    font-size: 20px;
+}
+.ps-background-image{
+    --background: url(/assets/img/login-background.png) 0 0/100% 100% no-repeat;
+}
+.ps-color {
+    color: #25384A;
+}
+.ps-input-border-radius {
+    border-radius: 30px;
+}
+#main div>div:last-child ion-button {
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 18px;
 }
 </style>

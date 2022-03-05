@@ -6,13 +6,13 @@
                 <ion-title>PROFILE</ion-title>
             </ion-toolbar>
         </ion-header> -->
-        <ion-content class="menu-content" scroll-y="false">
-            <ion-button @click="closeMenu" fill="clear" class="close-btn" color="light">
+        <ion-content class="menu-content ps-background-color" scroll-y="false">
+            <!-- <ion-button @click="closeMenu" fill="clear" class="close-btn" color="light">
                 <ion-icon slot="icon-only" :icon="closeOutline"></ion-icon>
-            </ion-button>
-            <div class="user-profile">
-                <ion-avatar>
-                    <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
+            </ion-button> -->
+            <div class="ion-text-center ps-user-profile">
+                <ion-avatar class="ps-user-avatar" >
+                    <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
                 </ion-avatar>
                 <div>
                     <h4>{{$store.getters.user.name}}</h4>
@@ -20,40 +20,62 @@
                 </div>
                 
             </div>
-            <ion-list lines="none">
-                    <ion-button @click="openSettings" fill="clear" color="dark">
-                        <ion-icon :icon="settingsOutline" slot="start" color="dark"></ion-icon>
-                        Settings
-                    </ion-button>
-                    <ion-button @click="openMyReservations" fill="clear" color="dark">
-                        <ion-icon :icon="bookmarksOutline" slot="start" color="dark"></ion-icon>
-                        My Reservations
-                    </ion-button>
-                    <ion-button fill="clear" color="dark">
-                        <ion-icon :icon="helpCircleOutline" slot="start" color="dark"></ion-icon>
-                        <a href="mailto:vjankenneth@gmail.com">Help</a>
-                    </ion-button>
-                    <ion-button fill="clear" color="dark">
-                        <ion-icon :icon="informationCircleOutline" slot="start" color="dark"></ion-icon>
-                        About
-                    </ion-button>
-                    
-                    <ion-button fill="clear" color="dark" @click="logoutConfirmation">
-                        <ion-icon :icon="logOutOutline" slot="start" color="dark"></ion-icon>
-                        Log Out
-                    </ion-button>
-                    
-            </ion-list>
+            <div id="menu-list" class="ps-background-color">
+                    <ion-item lines="none" button @click="openSettings" class="ps-background-color">
+                         <ion-icon :icon="person" slot="start" color="warning"></ion-icon>
+                         <ion-label class="ps-label-bold" color="light">
+                            My Account
+                         </ion-label>
+                    </ion-item>
+                    <ion-item lines="none" button @click="openMyReservations" class="ps-background-color">
+                         <ion-icon :icon="listOutline" slot="start" color="warning"></ion-icon>
+                         <ion-label class="ps-label-bold" color="light">
+                            My Reservations
+                         </ion-label>
+                    </ion-item>
+                        <!-- <ion-button @click="openSettings" fill="clear" color="dark">
+                            <ion-icon :icon="settingsOutline" slot="start" color="dark"></ion-icon>
+                            Settings
+                        </ion-button>
+                        <ion-button @click="openMyReservations" fill="clear" color="dark">
+                            <ion-icon :icon="bookmarksOutline" slot="start" color="dark"></ion-icon>
+                            My Reservations
+                        </ion-button>
+                        <ion-button fill="clear" color="dark">
+                            <ion-icon :icon="helpCircleOutline" slot="start" color="dark"></ion-icon>
+                            <a href="mailto:vjankenneth@gmail.com">Help</a>
+                        </ion-button>
+                        <ion-button @click="openAbout" fill="clear" color="dark">
+                            <ion-icon :icon="informationCircleOutline" slot="start" color="dark"></ion-icon>
+                            About
+                        </ion-button> -->
+            </div>
+            
+            <div class="">
+                <ion-button class="ps-btn-logout ps-btn-footer-action" size="large" expand="block" color="danger" @click="logoutConfirmation">
+                    <!-- <ion-icon :icon="logOutOutline" slot="start" ></ion-icon> -->
+                    Log Out
+                </ion-button>
+            </div>
         </ion-content>
     </ion-menu>
 </template>
 
 <script>
 import {
-  menuController,
-  alertController
+    IonMenu,
+    IonContent,
+    IonButton,
+    IonImg,
+    // IonList,
+    IonItem,
+    IonLabel,
+    IonIcon,
+    IonAvatar,
+    menuController,
+    alertController
 } from "@ionic/vue";
-import { closeOutline, logOutOutline, settingsOutline, bookmarksOutline, informationCircleOutline, helpCircleOutline} from 'ionicons/icons';
+import { closeOutline, logOutOutline, /* settingsOutline, */ bookmarksOutline, informationCircleOutline, helpCircleOutline, person, listOutline,} from 'ionicons/icons';
 
 export default {
     setup() {
@@ -62,13 +84,24 @@ export default {
     data: () => ({
         closeOutline,
         logOutOutline,
-        settingsOutline,
+        /* settingsOutline, */
         bookmarksOutline,
         informationCircleOutline,
         helpCircleOutline,
+        person, 
+        listOutline,
         user: {},
     }),
     components: {
+        IonMenu,
+        IonContent,
+        IonButton,
+        IonImg,
+        IonItem,
+        IonLabel,
+        // IonList,
+        IonIcon,
+        IonAvatar,
 
     },
      ionViewWillEnter () {
@@ -91,6 +124,11 @@ export default {
             console.log('oks');
             menuController.close("app-menu");
             this.$router.push('/settings');
+        },
+        openAbout(){
+            console.log('oks');
+            menuController.close("app-menu");
+            this.$router.push('/about');
         },
         openMyReservations(){
             console.log('oks');
@@ -116,11 +154,10 @@ export default {
                             // console.log(data);
                             this.$axios.post('user/v1/logout').then(({data}) => {
                                 if(data){
-                                    console.log(data);
-                                    localStorage.removeItem("token")
+                                    // console.log(data);
+                                    localStorage.removeItem("token") 
                                     this.$router.push('/login')
-                                    // menuController.close("customer");
-
+                                    menuController.close("app-menu");
                                 }
                             })
 
@@ -157,5 +194,46 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+    }
+    .ps-user-profile {
+        padding: 25px;
+    }
+    .ps-user-profile div h4 {
+        color: #fff;
+        margin: 20px 0 12px 0;
+    }
+    .ps-user-profile div span {
+        color: #fff;
+        padding: 10px 15px;
+        background: #314355;
+        border-radius: 8px;
+    }
+    .ps-user-avatar {
+        height: 112px;
+        width: 112px;
+        margin: auto;
+        border: 7px solid #F2C904;
+    }
+    .ps-btn-logout {
+        position: absolute;
+        bottom: 5%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        letter-spacing: 0;
+    }
+    .ps-label-bold {
+        font-weight: 900;
+        font-size: 18px;
+    }
+    #menu-list {
+        margin: 15px;
+    }
+    #menu-list ion-item {
+        border-bottom: 1px solid #5D6974;
+        padding: 10px 15px;
+    }
+    #menu-list ion-item:first-child {
+        border-top: 1px solid #5D6974;
     }
 </style>

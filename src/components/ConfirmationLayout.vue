@@ -1,4 +1,5 @@
 <template>
+    <ion-app>
     <ion-content :color="modalColor" scroll-y="false" style="text-align:center;">
         <!-- <ion-item class="header" lines="none" :color="modalColor">
             <ion-button slot="start" fill="clear" @click="closeModal">
@@ -20,11 +21,11 @@
             <ion-button @click="closeModal" expand="block" fill="outline" color="light" class="btn-close">{{btnLabel}}</ion-button>
         <!-- </div> -->
     </ion-content>
+    </ion-app>
 </template>
 <script>
-import { IonContent, /*IonButton,  IonLabel, IonItem, IonIcon */} from '@ionic/vue';
+import { IonApp,IonContent, modalController,} from '@ionic/vue';
 // import {closeOutline} from 'ionicons/icons';
-import {modalController,} from '@ionic/vue';
 export default {
     props: [
         'pageTitle',
@@ -37,6 +38,7 @@ export default {
     //     closeOutline,
     // }),
     components: {
+        IonApp,
         IonContent,
         // IonButton,
         // IonLabel,

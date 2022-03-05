@@ -1,98 +1,79 @@
 <template>
     <ion-page>
-        <ion-header class="ion-no-border">
-            <ion-toolbar class="ion-no-border book-slot-toolbar" color="light">
-                <ion-col slot="start" size="6">
-                    <ion-thumbnail @click="openMenu">
-                        <img style="border-radius: 10px;" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-                    </ion-thumbnail>
-                </ion-col>
-                <!-- <ion-button @click="openMenu" slot="start" fill="outline" color="light">
-                    <ion-icon :icon="menuOutline" slot="icon-only" color="dark"></ion-icon>
-                </ion-button> -->
-                <!-- <div class="user-details_simple">
-                    <h5>Daniel Batican</h5>
-                    <span>Student</span>
-                </div> -->
-                <!-- <ion-title>Test</ion-title> -->
-                <ion-col slot="end" size="6">
-                    <ion-label>Department</ion-label>
-                    <ion-select v-model="selectedDep" interface="popover" >
-                        <ion-select-option v-for="department in departments" :key="department.id"  :value="department.id">{{department.abbv}}</ion-select-option>
-                    </ion-select>
-                </ion-col>
+        <ion-header collapse="condensed" class="ion-no-border" mode="ios">
+            <ion-toolbar class="ps-dashboard-header ps-background-color">
+                <!-- <ion-col slot="start" size="6"> -->
+                    <ion-button class="ps-hover-remove" mode='ios' @click="openMenu" fill="clear" slot="start">
+                        <ion-icon :icon="menuOutline" slot="icon-only" color="light"></ion-icon>
+                    </ion-button>
+                    <ion-title class="ps-background-image ion-text-center">
+                        <ion-img alt="logo" src="/assets/img/Logo-big.png"></ion-img>
+                        <!-- <img alt="logo" id="header_logo" height="40" src="/assets/img/Logo-big.png"> -->
+                    </ion-title>
+                    <ion-button class="ps-hover-remove" mode='ios' fill="clear" slot="end">
+                    <!-- <ion-button class="ps-hover-remove" mode='ios' @click="openMenu" fill="clear" slot="end"> -->
+                         <ion-badge class="ps-badge" color="danger">1</ion-badge>
+                        <ion-icon :icon="notifications" slot="icon-only" color="light"></ion-icon>
+                    </ion-button>
+                <!-- </ion-col> -->
             </ion-toolbar>
-           
         </ion-header>
-         <ion-content color="dark" force-overscroll="true" overflow-scroll="true">
-             <div class="segment">
-                 <ion-segment color="light">
-                    <ion-segment-button value="0">
-                        <ion-label>Automobile</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button value="1">
-                        <ion-label>Motorcycle</ion-label>
-                    </ion-segment-button>
-                </ion-segment>
-             </div>
-             <ion-item detail="false" class="slot-filter" lines="none" color="light">
-                <!-- <ion-col size="4">
-                    <ion-label>Department</ion-label>
-                    <ion-select v-model="selectedDep" interface="popover" >
-                        <ion-select-option v-for="department in departments" :key="department.id"  :value="department.id">{{department.name}}</ion-select-option>
-                    </ion-select>
-                </ion-col> -->
-                <!-- <ion-col size="6">
-                    <ion-label>Parking lot</ion-label>
-                    <ion-select interface="popover">
-                        <ion-select-option v-for="slot in parkingSpot" :key="slot.id" :value="slot.id">{{slot.parking_number}}</ion-select-option>
-                    </ion-select>
-                </ion-col> -->
-                <ion-col>
-                    <ion-label>Status</ion-label>
-                    <p style="margin:0;">Available</p>
-                </ion-col>
-            </ion-item>
-            <section id="main_">    
-                <ion-grid class="ion-text-center park-listing">
-                    <ion-row>
-                        <ion-col size="5" class="parking-left-top" style="border-right: 1px solid #5d6974"></ion-col>
-                        <ion-col size="5" class="parking-right-top" style="border-left: 1px solid #5d6974"></ion-col>
-                        <ion-col size="5"  v-for="(slot,i) in parkingSpot" :key="slot.id">
-                            <div class="avail" v-if="slot.status == 1">
-                                <ion-button class="loii-btn" expand="block" :color="slot.selected ? 'light' : 'primary'" @click="buttonState(i)"><ion-label>{{slot.parking_number}}</ion-label></ion-button>
-                            </div>
-                            <div class="occu" v-else-if="slot.status == 2">
-                                <!-- <ion-button expand="block"><ion-label>{{slot.slotNum}}</ion-label></ion-button> -->
-                                <ion-img src="../assets/img/car.png"></ion-img>
-                            </div>
-                            <div class="resv" v-else-if="slot.status == 3">
-                                <ion-button expand="block" disabled color="medium"><ion-icon :icon="lockClosed" slot="icon-only"></ion-icon></ion-button>
-                            </div>
-                        </ion-col>
-                        <ion-col size="5" class="parking-left-bottom" style="border-right: 1px solid #5d6974"></ion-col>
-                        <ion-col size="5" class="parking-right-bottom" style="border-left: 1px solid #5d6974"></ion-col>
+         <ion-content force-overscroll="false" overflow-scroll="false" class="ps-background-color ion-padding">
+             <section id="dashboard">
+                <div class="ps-background-color">
+                    <ion-row class="ion-align-items-center" style="gap:15px; padding: 0 10px;">
+                        <ion-img src="/assets/img/filter.png" style="width: 14px; height: 15px;"></ion-img>
+                        <p style="text-transform: uppercase;color: #fff;">Filters</p>
                     </ion-row>
-                    <div class="park-entry">
-                        <ion-icon :icon="arrowUpOutline"></ion-icon>
-                        <h4>ENTRY</h4>
-                    </div>
-                </ion-grid>
-                <div class="park-btn">
-                    <ion-button expand="block" size="large"  @click="proceed">Proceed</ion-button>
+                    <ion-row class="ion-justify-content-between">
+                        <ion-col class="ps-filter" size="6">
+                        <ion-select v-model="selectedDep" interface="popover" placeholder="By Department">
+                            <ion-select-option v-for="department in departments" :key="department.id"  :value="department.id">{{department.abbreviation}}</ion-select-option>
+                        </ion-select>
+                        </ion-col>
+                        <ion-col class="ps-filter" size="5">
+                        <ion-select v-model="selectedType" interface="popover" placeholder="By Type" >
+                            <ion-select-option v-for="type in types" :key="type"  :value="type">{{type}}</ion-select-option>
+                        </ion-select>
+                        </ion-col>
+                    </ion-row>
                 </div>
-            </section>
+                <div class="ps-parking-slots ps-background-color-secondary">
+                    <ion-grid class="ion-text-center ps-slots">
+                        <ion-row class="ion-justify-content-between">
+                            <ion-col size="5"  v-for="(slot,i) in parkingSpot" :key="slot.id">
+                                <div class="avail" v-if="slot.status == 1">
+                                    <ion-button mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'"><ion-label>{{slot.parking_number}}</ion-label></ion-button>
+                                </div>
+                                <div class="occu" v-else-if="slot.status == 2">
+                                    <!-- <ion-button expand="block"><ion-label>{{slot.parking_number}}</ion-label></ion-button> -->
+                                    <ion-img v-if="slot.type == 'Car'" src="/assets/img/car.png"></ion-img>
+                                    <ion-img v-else-if="slot.type == 'Motor'" src="/assets/img/motorcycle.png"></ion-img>
+                                </div>
+                                <div class="resv" v-else-if="slot.status == 3">
+                                    <ion-button expand="block" disabled color="medium"><ion-icon :icon="lockClosed" slot="icon-only"></ion-icon></ion-button>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+                <div>
+                    <ion-button class="ps-btn-footer-action ps-input-border-radius" expand="block" size="large" color="warning" :disabled="!selectedSlot.id"  @click="proceed">Proceed</ion-button>
+                </div>
+             </section>
          </ion-content>
     </ion-page>
 </template>
 <script>
 import {
-    IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonThumbnail, IonSelect, IonSelectOption, IonItem, IonLabel, IonImg, modalController ,menuController, alertController, loadingController
+    IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonBadge, IonIcon,  IonSelect, IonSelectOption, IonLabel, modalController ,menuController, alertController
     } from '@ionic/vue';
-import {menuOutline,lockClosed, arrowUpOutline
+import {menuOutline, lockClosed, arrowUpOutline, carOutline, notifications,
 } from 'ionicons/icons';
 import ModalBookingSteps from '/src/views/Modals/BookingSteps.vue';
-// import { DatePickerPluginInterface } from "@capacitor-community/date-picker";
+import ModalSuccess from '/src/views/Modals/BookSuccess.vue';
+import ModalFailed from '/src/views/Modals/BookFailed.vue';
+// import moment from 'moment'
 
 export default {
     setup() {
@@ -100,65 +81,103 @@ export default {
     },
     data: () => ({
         menuOutline,
+        notifications,
         lockClosed,
         arrowUpOutline,
+        carOutline,
         selectedDep: null,
+        selectedType: null,
         selectedSlot: {},
-        types: [],
+        types: ['All','Car','Motor'],
         parkingSpot: [],
         departments: [],
-        // DatePickerPluginInterface,
-        // BarcodeScanner
-        // CalendarModule,
-            
+        getData: {
+            user_id: '',
+            slot_id: '',
+            start_date: '',
+            end_date: '',
+            start_time: 6,
+            end_time: 20,
+        },
+        date: Date.now(),
     }),
     ionViewWillEnter () {
         this.init();
-        console.log(this.selectedDep)
+        this.getData.user_id = this.$store.getters.user.id;
     },
     mounted (){
         this.init();
-        // console.log(this.selectedDep)
+        this.getData.user_id = this.$store.getters.user.id;
     },
+    
     components: {
-        IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonThumbnail, IonSelect, IonSelectOption, IonItem, IonLabel, IonImg,
-        // IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+        IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonBadge, IonIcon,  IonSelect, IonSelectOption, IonLabel, 
     },
     watch: {
         selectedDep: {
             handler(data){
-                // console.log(data);
                 this.getParkingSlotsByDepartment(data)
             }
-        }
+        },
+        selectedType: {
+            handler(data){
+                this.segmentChanged(data);
+            }
+        },
     },
     methods: {
         init() {
+            this.selectedType = 'All';
+            this.selectedSlot = {};
             this.$axios.get('user/v1/department/all').then(({data}) => {
-                this.departments = data
-                this.selectedDep = data[0].id;
-                // console.log(this.departments)
+                if(data){
+                    this.departments = data
+                    this.selectedDep = data[0].id
+                    this.types
+                }
                 this.getParkingSlotsByDepartment(this.selectedDep)
-
             });
         },
-        async getParkingSlotsByDepartment(id){
-             const loading = await loadingController
+        async openSuccess() 
+        {
+            const modal = await modalController
                 .create({
-                spinner: 'circular',
-                // message: 'loading components',
-                showBackdrop: true,
-                // duration: 1000,
-                translucent: true,
-                });
-            loading.present();
+                component: ModalSuccess,
+                    componentProps: {
+                        slotInfo: this.selectedSlot,
+                    },
+                })
+            var vm = this;
+            modal.onDidDismiss()
+            .then(() => {
+                vm.$router.push('/myreservations');
+                modalController.dismiss();
+            });
+            return modal.present();
+        },
+        async openFailed() 
+        {
+            const modal = await modalController
+                .create({
+                component: ModalFailed,
+                    componentProps: {
+                        slotInfo: this.selectedSlot,
+                    },
+                })
+            modal.onDidDismiss()
+            .then(() => {
+                modalController.dismiss();
+            });
+            return modal.present();
+        },
+        segmentChanged(v_type){
+            this.getParkingSlotsByDepartment(this.selectedDep,v_type)
+        },
+        async getParkingSlotsByDepartment(id,v_type = "All"){
             var vm = this;
             this.$axios.get('user/v1/department/show/'+id).then(({data}) => {
+                vm.parkingSpot = v_type == "All" ? data.parking_slots : data.parking_slots.filter(parking_slot => parking_slot.type == v_type)
 
-                // console.log(data);
-                vm.parkingSpot = data.parking_slots
-                // console.log(vm.parkingSpot)
-                loading.dismiss();
             });
         },
         proceed() {
@@ -170,41 +189,16 @@ export default {
         },
         async bookASpot() 
         {
-            // const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
-            // const selectedTheme = "light";
-            // if(Object.keys(this.selectedSlot).length === 0){
                 const modal = await modalController
                     .create({
                     component: ModalBookingSteps,
                         componentProps: {
                             slotConfirmation: this.selectedSlot,
-                            // datetimepicker: DatePicker
                         },
                     })
                 modal.onDidDismiss()
                 .then(() => {
-                    // this.test()
-                    console.log('gumawas an parent modal');
-                });
-                return modal.present();
-        },
-        async bookToday() 
-        {
-            // const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
-            // const selectedTheme = "light";
-            // if(Object.keys(this.selectedSlot).length === 0){
-                const modal = await modalController
-                    .create({
-                    component: ModalBookingSteps,
-                        componentProps: {
-                            slotConfirmation: this.selectedSlot,
-                            // datetimepicker: DatePicker
-                        },
-                    })
-                modal.onDidDismiss()
-                .then(() => {
-                    // this.test()
-                    console.log('gumawas an parent modal');
+                    this.init();
                 });
                 return modal.present();
         },
@@ -222,6 +216,7 @@ export default {
             console.log('onDidDismiss resolved with role', role);
         },
         async typeAlert() {
+            var vm = this;
             const alert = await alertController
                 .create({
                     header: 'Select a type',
@@ -243,14 +238,21 @@ export default {
                         {
                             text: 'OK',
                             handler: (data) => {
-                                // console.log(data);
-                                console.log(this.selectedType);
                                 if(data == 1){
                                     this.bookASpot();
-                                } else if(data == 2) {
-                                    this.bookToday();
-                                } else {
-                                    console.log('wara pumili type')
+                                } 
+                                if(data == 2) {
+                                    vm.getData.start_date = new Date(vm.date).toLocaleDateString();
+                                    vm.getData.end_date = new Date(vm.date).toLocaleDateString();
+                                    vm.getData.slot_id = vm.selectedSlot.id;
+
+                                    this.$axios.post('user/v1/reservation/create', vm.getData).then(({data}) => {
+                                        if(data.error){
+                                            this.openFailed();
+                                        } else {
+                                            this.openSuccess();
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -258,23 +260,18 @@ export default {
                 });
             return alert.present();
 
-            // const { role } = await alert.onDidDismiss();
-            // console.log('onDidDismiss resolved with role', role);
         },
         buttonState(i)
         {
             this.parkingSpot.forEach(element => {
                 element.selected = false;
-            });
-            
+            });            
             if (this.parkingSpot[i].id == this.selectedSlot.id) {
                 this.parkingSpot[i].selected == false;
                 this.selectedSlot = {};
-                // console.log(this.selectedSlot);
             } else {
                 this.selectedSlot = this.parkingSpot[i];
                 this.parkingSpot[i].selected = true;
-                // console.log(this.selectedSlot);
             }
         },
         openMenu()
@@ -285,113 +282,67 @@ export default {
 }
 </script>
 <style>
-.book-slot-toolbar {
-    padding: 20px 15px !important;
+/* new css */
+.ps-badge {
+    position: absolute;
+    top: 8px;
+    left: -6px;
+    width: auto;
+    height: auto;
+    font-size: 8px;
+    border-radius: 50px;
 }
-.user-details_simple {
-    text-align: right;
-    margin-right: 10px;
+.ps-background-color{
+    --background: #25384A;
 }
-.user-details_simple h5 {
-    margin: 0;
+.ps-background-color-secondary {
+    --background: #314355;
 }
-ion-select {
-    max-width: 100%;
+.ps-background-color>ion-button:last-child ion-icon {
+    font-size: 24px;
 }
-#main_ .park-listing {
-    position: relative;
-    padding: 0 15px;
-    margin: 120px 0;
+ion-title.ps-background-image {
+    --background: url(/assets/img/Logo-small.png) 0 0/100% 100% no-repeat;
 }
-#main_ .park-listing ion-row {
-    justify-content: space-between;
+.ps-dashboard-header ion-img {
+    height: 40px;
 }
-#main_ .park-listing ion-col {
-    padding: 10px;
-    border: 1px solid #5d6974;
+.ps-parking-slots {
+    width: 100%;
+    height: 450px;
+    background: #314355;
+    padding: 30px;
+    margin: 30px auto auto auto;
+    overflow: scroll;
 }
-#main_ .park-listing ion-col:nth-child(odd) {
-    border-right: 0;
+.ps-filter {
+    background: #fff;
+    border-radius: 30px;
 }
-#main_ .park-listing ion-col:nth-child(odd) .occu ion-img {
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+.ion-no-border {
+    border: 0 !important;
 }
-#main_ .park-listing ion-col:nth-child(even) {
-    border-left: 0;
-}
-#main_ .park-listing ion-col.parking-left-top {
-    border-top-right-radius: 75px;
-    padding: 35px;
-}
-#main_ .park-listing ion-col.parking-right-top {
-    border-top-left-radius: 75px;
-    padding: 35px;
-}
-#main_ .park-listing ion-col.parking-left-bottom {
-    border-bottom-right-radius: 75px;
-    padding: 35px;
-}
-#main_ .park-listing ion-col.parking-right-bottom {
-    border-bottom-left-radius: 75px;
-    padding: 35px;
-}
-.slot-filter {
-    text-align: center;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    position: fixed;
+section#dashboard>div:last-child{
+    /* position: absolute;
     left: 0;
     right: 0;
-    top: 155px;
-    z-index: 9;
+    bottom: 10%; */
+    margin-top: 30px;
 }
-.occu ion-img{
-    /* width: 75%; */
-    /* margin: auto; */
-}
-.park-btn {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 10px 15px;
-    --background: #252626;
-    background: #252626;
- }
-.park-btn ion-button {
-    --background: #f8d73a;
-    --color: #000;
-    font-weight: 900;
+ion-select::part(icon) {
+  color: #000;
+  opacity: 1;
 }
 
-.park-listing::after {
-    content: "";
-    border-right: 4px dashed #414950;
-    height: 80%;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    margin-top: 35px;
+.ps-slots ion-col:nth-child(odd) {
+    border: 1px dashed #fff;
+    border-right: none;
 }
-.park-entry{
-    position: absolute;
-    bottom: 0;
-    left: 41%;
+.ps-slots ion-col:nth-child(even) {
+    border: 1px dashed #fff;
+    border-left: none;
 }
-.park-entry ion-icon {
-    font-size: 24px;
-    color: #414950;
-}
-.park-entry h4 {
-    margin: 0;
-    color: #414950;
-    font-weight: 900;
-}
-.segment {
-    position: fixed;
-    width: 100%;
-    z-index: 9;
-    background: #f4f5f8;
+section#dashboard .ps-btn-footer-action {
+    padding: 0;
 }
 </style>

@@ -1,9 +1,8 @@
 import axios from "axios";
 import router from "../router";
 // const baseURL = "http://3.144.168.4/";
-const baseURL = "http://18.117.135.216/";
-// const baseURL = "http://192.168.254.113:8000/";
 // const baseURL = "http://192.168.254.111:8000/";
+const baseURL = "http://18.223.235.134/";
 
 
 const httpClient = axios.create({
@@ -60,6 +59,7 @@ httpClient.interceptors.response.use(
         //     })
         //   })
         console.log(messages);
+        return messages;
     }
 );
 

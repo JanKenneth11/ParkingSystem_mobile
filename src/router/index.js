@@ -5,6 +5,7 @@ import Login from '../views/MainPages/Login.vue'
 import Main from '../views/MainPages/Main.vue'
 import Settings from '../views/MenuPages/Settings.vue'
 import Reservation from '../views/MenuPages/MyReservations.vue'
+import About from '../views/MenuPages/About.vue'
 
 const routes = [{
         path: '/',
@@ -38,6 +39,14 @@ const routes = [{
         path: '/myreservations',
         name: 'myreservations',
         component: Reservation,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: About,
         meta: {
             requiresAuth: true,
         },

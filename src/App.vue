@@ -8,7 +8,7 @@
 <script>
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import Menu from './views/MainPages/Menu.vue';
-import { QRScanner } from '@ionic-native/qr-scanner';
+// import { QRScanner } from '@ionic-native/qr-scanner';
 
 export default {
   name: 'App',
@@ -18,7 +18,7 @@ export default {
     Menu,
   },
   mounted() {
-    QRScanner.prepare(this.onDone); // show the prompt
+    // QRScanner.prepare(this.onDone); // show the prompt
   },
   methods : {
     onDone(err, status){
