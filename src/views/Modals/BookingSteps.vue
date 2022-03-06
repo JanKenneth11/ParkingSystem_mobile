@@ -74,7 +74,7 @@
                     <ion-col size="12">
                     <br/>
                         <ion-slides mode="ios" pager="false" :options="slideOpts">
-                            <ion-slide v-for="(hour) in hours" :key="hour.value">
+                            <ion-slide v-for="(hour) in hours" :key="hour.value" style="width: 25%;">
                                 <ion-button mode="ios" class="ps-slider-buttons ps-background-color-secondary" :class="hour.value == getData.start_time || hour.value == getData.end_time ? 'time-bg-active' : ''" @click="buttonStateGetHour(hour.value)" :disabled="checkTimes(hour.value)" >
                                     <p>
                                         <ion-label>{{hour.text}}</ion-label>
