@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 // import Home from '../views/Home.vue'
 import store from '../store';
-import Login from '../views/MainPages/Login.vue'
-import Main from '../views/MainPages/Main.vue'
-import Settings from '../views/MenuPages/Settings.vue'
-import Reservation from '../views/MenuPages/MyReservations.vue'
-import About from '../views/MenuPages/About.vue'
+import Login from '../views/MainPages/Login.vue';
+import Main from '../views/MainPages/Main.vue';
+import Settings from '../views/MenuPages/Settings.vue';
+import Reservation from '../views/MenuPages/MyReservations.vue';
+import About from '../views/MenuPages/About.vue';
 
 const routes = [{
         path: '/',

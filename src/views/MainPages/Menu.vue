@@ -1,15 +1,6 @@
 <template>
     <ion-menu side="start" type="overlay" menu-id="app-menu" content-id="main-content">
-        <!-- <ion-header>
-            <ion-toolbar>
-                
-                <ion-title>PROFILE</ion-title>
-            </ion-toolbar>
-        </ion-header> -->
         <ion-content class="menu-content ps-background-color" scroll-y="false">
-            <!-- <ion-button @click="closeMenu" fill="clear" class="close-btn" color="light">
-                <ion-icon slot="icon-only" :icon="closeOutline"></ion-icon>
-            </ion-button> -->
             <div class="ion-text-center ps-user-profile">
                 <ion-avatar class="ps-user-avatar" >
                     <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
@@ -22,14 +13,14 @@
             </div>
             <div id="menu-list" class="ps-background-color">
                     <ion-item lines="none" button @click="openSettings" class="ps-background-color">
-                         <ion-icon :icon="person" slot="start" color="warning"></ion-icon>
-                         <ion-label class="ps-label-bold" color="light">
+                         <ion-icon class="ps-icon" :icon="person" slot="start" ></ion-icon>
+                         <ion-label class="ps-label-bold">
                             My Account
                          </ion-label>
                     </ion-item>
                     <ion-item lines="none" button @click="openMyReservations" class="ps-background-color">
-                         <ion-icon :icon="listOutline" slot="start" color="warning"></ion-icon>
-                         <ion-label class="ps-label-bold" color="light">
+                         <ion-icon class="ps-icon" :icon="listOutline" slot="start" ></ion-icon>
+                         <ion-label class="ps-label-bold">
                             My Reservations
                          </ion-label>
                     </ion-item>
@@ -51,8 +42,8 @@
                         </ion-button> -->
             </div>
             
-            <div class="">
-                <ion-button class="ps-btn-logout ps-btn-footer-action" size="large" expand="block" color="danger" @click="logoutConfirmation">
+            <div class="btn-logout">
+                <ion-button class="ps-btn" size="large" expand="block" @click="logoutConfirmation">
                     <!-- <ion-icon :icon="logOutOutline" slot="start" ></ion-icon> -->
                     Log Out
                 </ion-button>
@@ -186,10 +177,6 @@ export default {
     .user-profile>div h4{
         margin: 0;
     }
-    .menu-content .close-btn {
-        position: absolute;
-        right: 0;
-    }
     .menu-content ion-list {
         margin-top: 20px;
         display: flex;
@@ -215,15 +202,8 @@ export default {
         margin: auto;
         border: 7px solid #F2C904;
     }
-    .ps-btn-logout {
-        position: absolute;
-        bottom: 5%;
-        left: 0;
-        right: 0;
-        width: 100%;
-        letter-spacing: 0;
-    }
     .ps-label-bold {
+        --color: var(--ion-color-secondary) !important;
         font-weight: 900;
         font-size: 18px;
     }
@@ -236,5 +216,13 @@ export default {
     }
     #menu-list ion-item:first-child {
         border-top: 1px solid #5D6974;
+    }
+    .btn-logout {
+        margin: 0 15px;
+        margin-top: calc(100%/0.91);
+    }
+    .btn-logout .ps-btn {
+        --background: var(--ion-color-custom-danger);
+        --color: #fff;
     }
 </style>

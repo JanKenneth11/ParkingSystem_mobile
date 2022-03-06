@@ -1,10 +1,9 @@
 <template>
-    <ion-app>
     <ion-content mode="ios" class="ps-background-color">
         <section id="main-book-process">
             <div>
-                <ion-button class="ps-back-button ps-input-border-radius" @click="closeModal" slot="start" mode="ios" color="warning">
-                <ion-icon slot="icon-only" :icon="chevronBackOutline" color="dark"></ion-icon>
+                <ion-button class="ps-back-button" @click="closeModal" slot="start" mode="ios">
+                <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline" ></ion-icon>
             </ion-button>
             </div>
             <div>
@@ -12,38 +11,37 @@
                 <ion-row class="ion-text-uppercase">
                     <ion-col size="12" class="ps-col-grid">
                         <ion-card class="ps-background-color-secondary"  style="margin: 0;">
-                            <ion-card-content style="padding: 18px 15px;">
+                            <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Reserve 
                                     Number:</span>
-                                <p><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                         <ion-card class="ps-background-color-secondary"  style="margin: 0;">
-                            <ion-card-content style="padding: 18px 15px;">
+                            <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Department 
                                     Name:</span>
-                                <p><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                     <ion-col size="12" class="ps-col-grid">
                         <ion-card class="ps-background-color-secondary"  style="margin: 0;">
-                            <ion-card-content style="padding: 18px 15px;">
+                            <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Parking 
                                     Space Code: </span>
-                                <p><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                          <ion-card class="ps-background-color-secondary"  style="margin: 0;">
-                            <ion-card-content style="padding: 18px 15px;">
+                            <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Vehicle Type:</span>
-                                <p><strong style="color: #fff;">{{slotConfirmation.type}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.type}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                 </ion-row>
             </div>
-            <br/>
             <br/>
             <div class="ps-date-time">
                 <ion-label>
@@ -51,9 +49,8 @@
                     <span style="margin-left: 10px">Date / Time Picker</span>
                 </ion-label>
                 <ion-row>
-                <br/>
                     <ion-col size="12" class="ps-date-picker">
-                        <ion-card>
+                        <ion-card class="ps-card">
                             <ion-card-content style="height: 100%; position: relative;">
                                 <div class="ps-date-display">
                                     <p>{{getMonthFromDate(getData.start_date)}}</p>
@@ -63,7 +60,7 @@
                             </ion-card-content>
                         </ion-card>
                         <ion-label class="ps-custom-label">To</ion-label>
-                        <ion-card>
+                        <ion-card class="ps-card">
                             <ion-card-content style="height: 100%; position: relative;">
                                 <div class="ps-date-display">
                                     <p>{{getMonthFromDate(getData.end_date)}}</p>
@@ -76,7 +73,7 @@
                     </ion-col>
                     <ion-col size="12">
                     <br/>
-                        <ion-slides mode="ios" pager="true" :options="slideOpts">
+                        <ion-slides mode="ios" pager="false" :options="slideOpts">
                             <ion-slide v-for="(hour) in hours" :key="hour.value">
                                 <ion-button mode="ios" class="ps-slider-buttons ps-background-color-secondary" :class="hour.value == getData.start_time || hour.value == getData.end_time ? 'time-bg-active' : ''" @click="buttonStateGetHour(hour.value)" :disabled="checkTimes(hour.value)" >
                                     <p>
@@ -90,18 +87,16 @@
                 </ion-row>
             </div>
             <div class="place-btn">
-                <ion-button class="ps-btn-footer-action" @click="createReservation" :disabled="!getData.start_date + !getData.end_date + !getData.start_time + !getData.end_time" expand="block" size="large" color="warning">Reserve Space</ion-button>
+                <ion-button class="ps-btn" @click="createReservation" :disabled="!getData.start_date + !getData.end_date + !getData.start_time + !getData.end_time" expand="block" size="large" color="warning">Reserve Space</ion-button>
             </div>
         </section>
     </ion-content>
-    </ion-app>
 </template>
 <script>
 import {
     modalController,
     loadingController,
     IonButton,
-    IonApp,
     IonIcon,
     IonContent,
     IonCard,
@@ -129,7 +124,6 @@ export default {
     },
     components: {
         IonButton,
-        IonApp,
         IonIcon,
         IonContent,
         IonCard,
@@ -377,6 +371,7 @@ export default {
 .ps-date-time>ion-label:first-child span {
     color: #fff;
     text-transform: uppercase;
+    letter-spacing: 2px;
 }
 .confirmation-datetime ion-icon {
     font-size: 25px;
@@ -406,18 +401,14 @@ export default {
 .ps-col-grid {
     display: grid;
     grid-template-columns: auto auto;
-    padding: 10px 15px;
+    padding: 5px 15px;
     gap: 10px;
 }
 section#main-book-process>div:first-child {
     margin-top: 35px;
     margin-left: 15px;
 }
-.ps-back-button {
-    --border-radius: 60px;
-    --padding-start: 8px;
-    --padding-end: 9px;
-}
+
 .ps-date-picker {
     display: flex;
     align-items: center;
@@ -432,9 +423,9 @@ section#main-book-process>div:first-child {
     transform: translate(-50%, -50%);
     z-index: 9;
     background: #fec309;
-    border: 10px solid #25384a;
+    border: 10px solid var(--ion-color-primary);
     border-radius: 75px;
-    padding: 15px;
+    padding: 10px;
     margin: 0;
     text-transform: uppercase;
     font-weight: 900;
@@ -482,12 +473,30 @@ ion-datetime {
     font-weight: bold;
     text-transform: uppercase;
 }
-section#main-book-process .place-btn ion-button{
-    text-transform: uppercase;
-    font-weight: 900;
-}
 .time-bg-active {
     --background: var(--ion-color-warning) !important;
     color: var(--ion-color-dark) !important;
+}
+.place-btn {
+    margin-top: calc(100%/30);
+    padding: 0 15px;
+}
+.ps-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ps-card-content p,
+.ps-card-content span {
+    letter-spacing: 4.5px;
+}
+.ps-card-content span {
+    font-size: 12px;
+}
+ion-card:last-child .ps-card-content span {
+    width: min-content;
+}
+.ps-card-content p {
+    color: var(--ion-color-secondary);
 }
 </style>

@@ -11,12 +11,12 @@
             <section id="main-profile">
                 <div>
                     <ion-button class="ps-back-button ps-input-border-radius" router-link="/main" slot="start" mode="ios" color="warning">
-                        <ion-icon slot="icon-only" :icon="chevronBackOutline" color="dark"></ion-icon>
+                        <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline"></ion-icon>
                     </ion-button>
                 </div>
                 <div>
-                    <ion-icon color="warning" :icon="person" slot="start"></ion-icon>
-                    <ion-label color="light">My Account</ion-label>
+                    <ion-icon class="ps-icon" :icon="person" slot="start"></ion-icon>
+                    <ion-label color="secondary">My Account</ion-label>
                 </div>
                 <div>
                     <ion-avatar class="ps-user-img" v-if="$store.getters.user.image == '' | $store.getters.user.image == null">
@@ -26,7 +26,7 @@
                         <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
                     </ion-avatar>
                     <div>
-                        <ion-button color="warning">
+                        <ion-button class="ps-btn">
                             Change Profile
                         </ion-button>
                         <ion-label class="ps-font-italic">
@@ -38,14 +38,14 @@
                     <div>
                     <ion-label>Name:</ion-label>
                     <ion-item class="ps-background-color">
-                        <ion-input color="light" @ionInput="updateUser.name = $event.target.value;" :value="$store.getters.user.name" ></ion-input>
+                        <ion-input @ionInput="updateUser.name = $event.target.value;" :value="$store.getters.user.name" ></ion-input>
                         <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img>
                     </ion-item>
                     </div>
                     <div>
                     <ion-label>Email:</ion-label>
                     <ion-item class="ps-background-color">
-                        <ion-input color="light" @ionInput="updateUser.email = $event.target.value;" :value="$store.getters.user.email" ></ion-input>
+                        <ion-input @ionInput="updateUser.email = $event.target.value;" :value="$store.getters.user.email" ></ion-input>
                         <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img>
                     </ion-item>
                     </div>
@@ -148,7 +148,8 @@ export default {
     gap: 5px;
 }
 #main-profile>div:nth-child(3)>div ion-button {
-    font-weight: 900;
+    letter-spacing: 2.5px;
+    font-size: 14px;
 }
 #main-profile>div:last-child {
     padding: 0 15px;
@@ -164,6 +165,7 @@ export default {
     font-size: 16px;
 }
 #main-profile ion-item {
+    --color: var(--ion-color-secondary);
     --border-color:#707070 ;
 }
 .ps-font-italic {

@@ -19,11 +19,10 @@
             </ion-toolbar>
         </ion-header>
          <ion-content force-overscroll="false" overflow-scroll="false" class="ps-background-color ion-padding">
-             <ion-page>
              <section id="dashboard">
                 <div class="ps-background-color">
                     <ion-row class="ion-align-items-center" style="gap:15px; padding: 0 10px;">
-                        <ion-img src="/assets/img/filter.png" style="width: 14px; height: 15px;"></ion-img>
+                        <ion-img src="/assets/img/filter.png" style="width: 18px; height: 18px;"></ion-img>
                         <p style="text-transform: uppercase;color: #fff;">Filters</p>
                     </ion-row>
                     <ion-row class="ion-justify-content-between">
@@ -59,10 +58,9 @@
                     </ion-grid>
                 </div>
                 <div>
-                    <ion-button class="ps-btn-footer-action ps-input-border-radius" expand="block" size="large" color="warning" :disabled="!selectedSlot.id"  @click="proceed">Proceed</ion-button>
+                    <ion-button class="ps-btn" expand="block" size="large" :disabled="!selectedSlot.id"  @click="proceed">Proceed</ion-button>
                 </div>
              </section>
-             </ion-page>
          </ion-content>
     </ion-page>
 </template>
@@ -191,18 +189,18 @@ export default {
         },
         async bookASpot() 
         {
-                const modal = await modalController
-                    .create({
-                    component: ModalBookingSteps,
-                        componentProps: {
-                            slotConfirmation: this.selectedSlot,
-                        },
-                    })
-                modal.onDidDismiss()
-                .then(() => {
-                    this.init();
-                });
-                return modal.present();
+            const modal = await modalController
+                .create({
+                component: ModalBookingSteps,
+                    componentProps: {
+                        slotConfirmation: this.selectedSlot,
+                    },
+                })
+            modal.onDidDismiss()
+            .then(() => {
+                this.init();
+            });
+            return modal.present();
         },
         async warningAlert() {
             const alert = await alertController
@@ -319,17 +317,14 @@ ion-title.ps-background-image {
 }
 .ps-filter {
     background: #fff;
+    color: #000;
     border-radius: 30px;
 }
 .ion-no-border {
     border: 0 !important;
 }
 section#dashboard>div:last-child{
-    /* position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 10%; */
-    margin-top: 30px;
+    margin-top: calc(100%/6.6);
 }
 ion-select::part(icon) {
   color: #000;
@@ -346,5 +341,8 @@ ion-select::part(icon) {
 }
 section#dashboard .ps-btn-footer-action {
     padding: 0;
+}
+.ps-hover-remove ion-icon {
+    color: #fff !important;
 }
 </style>

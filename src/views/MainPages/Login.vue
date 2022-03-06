@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div>
-                        <ion-button class="ps-btn-footer-action ps-input-border-radius" color="warning" @click="mobileLogin" expand="block" size="large">Sign In</ion-button>
+                        <ion-button class="ps-btn" @click="mobileLogin" expand="block" size="large">Sign In</ion-button>
                     </div>
                 </div>
             </section>
@@ -74,7 +74,8 @@ export default {
     margin: 0 auto;
 }
 .app-login > div:last-child {
-    margin-top: 75%;
+    margin-top: calc(100%/1.5);
+    padding: 0 15px;
 }
 .app-login-form {
     padding: 0 15px;
@@ -109,11 +110,5 @@ export default {
 }
 .ps-input-border-radius {
     border-radius: 30px;
-}
-#main div>div:last-child ion-button {
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-transform: capitalize;
-    font-size: 18px;
 }
 </style>

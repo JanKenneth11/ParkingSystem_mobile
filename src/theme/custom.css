@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'Google-Sans';
+    src: url('../assets/fonts/ProductSans-Regular.ttf');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Google-Italic';
+    src: url('../assets/fonts/ProductSans-Italic.ttf');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Google-Bold';
+    src: url('../assets/fonts/ProductSans-Bold.ttf');
+    font-weight: 200;
+    font-style: normal;
+}
+
+.ps-btn {
+    --background: #F2C904;
+    --color: #25384A;
+    --border-radius: 30px;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 18px;
+}
+
+.ps-back-button {
+    --border-radius: 60px;
+    --padding-start: 8px;
+    --padding-end: 9px;
+    --background: #F2C904;
+}
+
+.ps-back-button:hover {
+    --background-hover: #F2C904;
+}
+
+.ps-back-button-icon {
+    color: #25384A;
+}
+
+.ps-icon {
+    color: #F2C904;
+}
+
+.ps-card {
+    --background: #F6FBFF;
+}

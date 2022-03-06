@@ -9,38 +9,36 @@
         <ion-content class="ps-background-color">
             <section id="reservation">
                 <div>
-                    <ion-button class="ps-back-button ps-input-border-radius" router-link="/main" slot="start" mode="ios" color="warning">
-                    <ion-icon slot="icon-only" :icon="chevronBackOutline" color="dark"></ion-icon>
+                    <ion-button class="ps-back-button" router-link="/main" slot="start" mode="ios">
+                    <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline"></ion-icon>
                     </ion-button>
                 </div>
                 <div>
-                    <ion-icon color="warning" :icon="list" slot="start"></ion-icon>
-                    <ion-label color="light">My Reservations</ion-label>
+                    <ion-icon :icon="list" slot="start"></ion-icon>
+                    <ion-label>My Reservations</ion-label>
                 </div>
-                <div>
+                <div  style="margin: 0 15px;">
                     <ion-card class="ps-background-color-secondary" v-for="reservation in reservations" :key="reservation.id">
                         <ion-card-content>
                             <ion-row>
-                                        <p class="ps-title">Reservation Number:</p> <span class="ps-title-value"><strong>#{{reservation.id}}</strong></span>
+                                <p class="ps-title">Reservation Number:</p> <span class="ps-title-value"><strong>#{{reservation.id}}</strong></span>
                             </ion-row>
                             <ion-row>
                                 <ion-col>
-                                        <p class="ps-title">Department 
-                                            Name: </p><span class="ps-title-value"><strong>{{reservation.parking_slot.department.abbreviation}}</strong></span>
+                                    <p class="ps-title">Department Name: </p><span class="ps-title-value"><strong>{{reservation.parking_slot.department.abbreviation}}</strong></span>
                                 </ion-col>
                                 <ion-col>
-                                        <p class="ps-title">Parking 
-                                            Space Code: </p><span class="ps-title-value"><strong>{{reservation.parking_slot.parking_number}}</strong></span>
+                                    <p class="ps-title">Parking Space Code: </p><span class="ps-title-value"><strong>{{reservation.parking_slot.parking_number}}</strong></span>
                                 </ion-col>
                             </ion-row>
                             <ion-row>
                                 <ion-col>
-                                    <ion-button class="ps-input-border-radius"  @click="btnClick(reservation.id)" expand="block" size="large" color="warning">
+                                    <ion-button class="ps-btn"  @click="btnClick(reservation.id)" expand="block">
                                         Scan Qr
                                     </ion-button>
                                 </ion-col>
                                 <ion-col>
-                                    <ion-button class="ps-input-border-radius"  @click="removeReserveSlot(reservation.id)" expand="block" size="large" color="danger">
+                                    <ion-button class="ps-btn"  @click="removeReserveSlot(reservation.id)" expand="block">
                                         Cancel
                                     </ion-button>
                                 </ion-col>
@@ -139,32 +137,48 @@ export default {
 }
 #reservation>div:nth-child(2) ion-icon {
     font-size: 30px;
+    color: #F2C904;
 }
 #reservation>div:nth-child(2) ion-label {
     font-size: 20px;
+    color: #F6FBFF;
 }
 
 .ps-title {
-    font-size: 14px !important;
-    letter-spacing: 2px;
+    font-size: 12px !important;
+    letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
 .ps-title-value {
     font-size: 18px;
-    color: #fff;
+    color: #F6FBFF;
     white-space: pre;
 }
 #reservation ion-row {
     align-items: center;
 }
+#reservation ion-row:nth-child(2) {
+    margin: 15px 0;
+}
+#reservation ion-row:nth-child(2) ion-col {
+    display: flex;
+    gap: 10px;    
+    align-items: center;
+}
+#reservation ion-row:nth-child(2) ion-col .ps-title {
+    width: min-content;
 
+}
 #reservation ion-row:first-child  {
     gap: 13px;
     margin-left: 5px;
 }
-#reservation .ps-input-border-radius {
-    --border-radius: 30px !important;
-    text-transform: capitalize;
-    font-weight: 900;
+#reservation ion-row:last-child ion-col:last-child .ps-btn {
+    --background: #D21F1F;
+    --color: #F6FBFF;
+}
+#reservation .ps-btn {
+    height: 45px;
 }
 </style>

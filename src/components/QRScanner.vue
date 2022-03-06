@@ -10,8 +10,8 @@
     <ion-content force-overscroll="false" mode="ios" class="ps-background-color">
         <section id="main-book-process">
             <div>
-                <ion-button class="ps-back-button ps-input-border-radius" @click="closeModal" slot="start" mode="ios" color="warning">
-                <ion-icon slot="icon-only" :icon="chevronBackOutline" color="dark"></ion-icon>
+                <ion-button class="ps-back-button" @click="closeModal" slot="start" mode="ios">
+                <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline"></ion-icon>
             </ion-button>
             </div>
             <div style="height: 50vh; width: 80vw; margin: auto; margin-top: 120px">
