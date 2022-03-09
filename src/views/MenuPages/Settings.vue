@@ -1,22 +1,15 @@
 <template>
     <ion-page @ionDidOpen="userInfo">
-        <!-- <ion-header>
-            <ion-toolbar>
-                <ion-back-button default-href="/main" slot="start"></ion-back-button>
-                <ion-title>Settings</ion-title>
-                <ion-button @click="updateUserInfo" slot="end" fill="clear">Done</ion-button>
-            </ion-toolbar>
-        </ion-header> -->
         <ion-content class="ps-background-color">
             <section id="main-profile">
                 <div>
-                    <ion-button class="ps-back-button ps-input-border-radius" router-link="/main" slot="start" mode="ios" color="warning">
+                    <ion-button class="ps-back-button ps-input-border-radius" router-link="/main" slot="start" mode="ios">
                         <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline"></ion-icon>
                     </ion-button>
                 </div>
                 <div>
                     <ion-icon class="ps-icon" :icon="person" slot="start"></ion-icon>
-                    <ion-label color="secondary">My Account</ion-label>
+                    <ion-label>My Account</ion-label>
                 </div>
                 <div>
                     <ion-avatar class="ps-user-img" v-if="$store.getters.user.image == '' | $store.getters.user.image == null">
@@ -135,6 +128,7 @@ export default {
 }
 #main-profile>div:nth-child(2) ion-label {
     font-size: 20px;
+    color: #F6FBFF;
  }
 #main-profile>div:nth-child(3) {
     display: flex;
@@ -165,7 +159,7 @@ export default {
     font-size: 16px;
 }
 #main-profile ion-item {
-    --color: var(--ion-color-secondary);
+    --color: #F6FBFF;
     --border-color:#707070 ;
 }
 .ps-font-italic {

@@ -203,7 +203,7 @@ export default {
         border: 7px solid #F2C904;
     }
     .ps-label-bold {
-        --color: var(--ion-color-secondary) !important;
+        --color: #F6FBFF !important;
         font-weight: 900;
         font-size: 18px;
     }
@@ -222,7 +222,7 @@ export default {
         margin-top: calc(100%/0.91);
     }
     .btn-logout .ps-btn {
-        --background: var(--ion-color-custom-danger);
-        --color: #fff;
+        --background: #D21F1F;
+        --color: #F6FBFF;
     }
 </style>

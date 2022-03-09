@@ -1,8 +1,11 @@
 <template>
-  <ion-app>
+  <ion-app class="scanner-hide">
     <Menu v-if="checkUser"></Menu>
     <ion-router-outlet id="main-content"/>
   </ion-app>
+    <div class="scanner-ui">
+      ...Scanner Interface
+    </div>
 </template>
 
 <script>

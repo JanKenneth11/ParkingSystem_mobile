@@ -54,6 +54,7 @@
 import {IonPage, /* IonHeader, IonToolbar, IonTitle, */IonIcon, IonLabel, IonCol,/*  IonButtons, */ IonContent, IonCard, /* IonCardHeader, */ IonCardContent, /* IonBackButton, */ /* IonCardTitle, */ /* IonCardSubtitle, */ IonButton, IonRow, /* IonGrid, */ modalController } from '@ionic/vue';
 import QrScanner from '/src/components/QRScanner.vue';
 import { qrCodeOutline, closeCircleOutline,chevronBackOutline, list} from 'ionicons/icons';
+import { Camera } from '@capacitor/camera';
 
 export default {
     setup() {
@@ -65,8 +66,11 @@ export default {
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         this.date = date;
         console.log(date);
+        Camera.requestPermissions();
+
     },
     mounted (){
+
         this.getReservations();
     },
      data: () => ({
@@ -145,8 +149,8 @@ export default {
 }
 
 .ps-title {
-    font-size: 12px !important;
-    letter-spacing: 4px;
+    font-size: 11px !important;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
 }
 
@@ -159,15 +163,15 @@ export default {
     align-items: center;
 }
 #reservation ion-row:nth-child(2) {
-    margin: 15px 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 #reservation ion-row:nth-child(2) ion-col {
     display: flex;
-    gap: 10px;    
     align-items: center;
 }
 #reservation ion-row:nth-child(2) ion-col .ps-title {
-    width: min-content;
+    width: 65%;
 
 }
 #reservation ion-row:first-child  {
@@ -180,5 +184,10 @@ export default {
 }
 #reservation .ps-btn {
     height: 45px;
+}
+
+#reservation .ps-background-color-secondary{
+    margin: 30px 0;
+    border-radius: 10px;
 }
 </style>
