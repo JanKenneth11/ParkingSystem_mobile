@@ -74,7 +74,7 @@
                     <ion-col size="12">
                     <br/>
                         <ion-slides mode="ios" pager="false" :options="slideOpts">
-                            <ion-slide v-for="(hour) in hours" :key="hour.value" style="width: 25%;">
+                            <ion-slide v-for="(hour) in hours" :key="hour.value" style="width:104px;">
                                 <ion-button mode="ios" class="ps-slider-buttons ps-background-color-secondary" :class="hour.value == getData.start_time || hour.value == getData.end_time ? 'time-bg-active' : ''" @click="buttonStateGetHour(hour.value)" :disabled="checkTimes(hour.value)" >
                                     <p>
                                         <ion-label>{{hour.text}}</ion-label>
@@ -258,7 +258,15 @@ export default {
             }
         },
         closeModal(){
-          return modalController.dismiss();
+            this.getData = {
+                user_id: '',
+                slot_id: '',
+                start_date: '',
+                end_date: '',
+                start_time: '',
+                end_time: '',
+            };
+             return modalController.dismiss();
         },
         confirmSlot(){
             this.presentLoadingWithOptions();
@@ -423,7 +431,7 @@ section#main-book-process>div:first-child {
     transform: translate(-50%, -50%);
     z-index: 9;
     background: #fec309;
-    border: 10px solid var(--ion-color-primary);
+    border: 10px solid #25384A;
     border-radius: 75px;
     padding: 10px;
     margin: 0;
@@ -474,8 +482,8 @@ ion-datetime {
     text-transform: uppercase;
 }
 .time-bg-active {
-    --background: var(--ion-color-warning) !important;
-    color: var(--ion-color-dark) !important;
+    --background: #F2C904 !important;
+    color: #25384A !important;
 }
 .place-btn {
     margin-top: calc(100%/30);
@@ -497,6 +505,6 @@ ion-card:last-child .ps-card-content span {
     width: min-content;
 }
 .ps-card-content p {
-    color: var(--ion-color-secondary);
+    color: #F6FBFF;
 }
 </style>

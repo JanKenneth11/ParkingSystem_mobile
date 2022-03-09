@@ -4,7 +4,7 @@
             <ion-toolbar class="ps-dashboard-header ps-background-color">
                 <!-- <ion-col slot="start" size="6"> -->
                     <ion-button class="ps-hover-remove" mode='ios' @click="openMenu" fill="clear" slot="start">
-                        <ion-icon :icon="menuOutline" slot="icon-only" color="light"></ion-icon>
+                        <ion-icon :icon="menuOutline" slot="icon-only"></ion-icon>
                     </ion-button>
                     <ion-title class="ps-background-image ion-text-center">
                         <ion-img alt="logo" src="/assets/img/Logo-big.png"></ion-img>
@@ -41,9 +41,10 @@
                 <div class="ps-parking-slots ps-background-color-secondary">
                     <ion-grid class="ion-text-center ps-slots">
                         <ion-row class="ion-justify-content-between">
-                            <ion-col size="5"  v-for="(slot,i) in parkingSpot" :key="slot.id">
+                            
+                            <ion-col size="5" v-for="(slot,i) in parkingSpot" :key="slot.id">
                                 <div class="avail" v-if="slot.status == 1">
-                                    <ion-button mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'"><ion-label>{{slot.parking_number}}</ion-label></ion-button>
+                                    <ion-button mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'"><ion-label :style="slot.selected ? 'color:#000;' : 'color:#F6FBFF;'">{{slot.parking_number}}</ion-label></ion-button>
                                 </div>
                                 <div class="occu" v-else-if="slot.status == 2">
                                     <!-- <ion-button expand="block"><ion-label>{{slot.parking_number}}</ion-label></ion-button> -->
@@ -332,17 +333,38 @@ ion-select::part(icon) {
 }
 
 .ps-slots ion-col:nth-child(odd) {
-    border: 1px dashed #fff;
+    border: 3.5px dashed #fff;
     border-right: none;
+    padding: 5px;
 }
 .ps-slots ion-col:nth-child(even) {
-    border: 1px dashed #fff;
+    border: 3.5px dashed #fff;
     border-left: none;
+    padding: 5px;
+}
+.ps-slots ion-col:not(:first-child):not(:nth-child(2)) {
+    border-top: 0;
 }
 section#dashboard .ps-btn-footer-action {
     padding: 0;
 }
 .ps-hover-remove ion-icon {
-    color: #fff !important;
+    color: #F6FBFF !important;
+}
+.avail ion-button ion-label {
+    color: #F6FBFF ;
+}
+.occu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.5);
+    padding: 10px;
+}
+.resv ion-button, .avail ion-button {
+    height: 46px;
+    margin: 5px;
 }
 </style>

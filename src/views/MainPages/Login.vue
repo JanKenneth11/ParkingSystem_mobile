@@ -8,16 +8,14 @@
                     </div>
                     <div class="app-login-form">
                         <div>
-                            <ion-label color="light">Email</ion-label>
+                            <ion-label>Email</ion-label>
                             <ion-item class="ps-input-border-radius" lines="none">
                                 <ion-input v-model="input.email" type="email" placeholder="Enter Email" required></ion-input>
-                                <!-- <ion-icon  :icon="personCircleOutline" slot="start"></ion-icon> -->
                             </ion-item>
                         </div>
                         <div>
-                            <ion-label color="light">Password</ion-label>
+                            <ion-label>Password</ion-label>
                             <ion-item class="ps-input-border-radius" lines="none">
-                                <!-- <ion-icon :icon="lockClosed" slot="start"></ion-icon> -->
                                 <ion-input v-model="input.password" :type="passwordStatus ? 'text' : 'password'" placeholder="Enter Password" required></ion-input>
                                 <ion-icon  :icon="passwordStatus ? eyeSharp : eyeOffSharp" slot="end" @click="passwordStatus = !passwordStatus"></ion-icon>
                             </ion-item>
@@ -85,9 +83,11 @@ export default {
 }
 .app-login-form div ion-label {
     font-size: 18px;
+    color: #F6FBFF;
 }
 .app-login-form div ion-item {
     margin-top: 7px;
+    --background: #F6FBFF;
 }
 .ps-btn-footer-action {
     padding: 0 15px;
@@ -96,6 +96,7 @@ export default {
     --border-radius: 30px
 }
 .app-login-form ion-item ion-input {
+    --color: #252626;
     font-size: 14px;
 }
 .app-login-form ion-icon {
