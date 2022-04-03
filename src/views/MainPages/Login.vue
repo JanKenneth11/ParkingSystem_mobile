@@ -31,7 +31,7 @@
 </template>
 <script>
 import { IonPage,IonContent, IonInput, IonLabel, IonItem, IonButton, IonIcon,IonImg } from '@ionic/vue';
-import {personCircleOutline, lockClosed, eyeSharp, eyeOffSharp} from 'ionicons/icons';
+import {personCircleOutline, lockClosed, eyeSharp, eyeOffSharp, checkmarkCircle} from 'ionicons/icons';
 
 export default {
     components: {
@@ -42,11 +42,9 @@ export default {
         lockClosed,
         eyeSharp, 
         eyeOffSharp,
+        checkmarkCircle,
         passwordStatus: false,
-        static: {
-            email: 'dan@gmail.com',
-            password: '1234'
-        },
+        users: [],
         input: {
             email: 'dan@gmail.com',
             password: '1234'
@@ -55,8 +53,19 @@ export default {
     methods: {
         mobileLogin(){
             this.$axios.post('user/login', this.input).then(({data}) => {
-                localStorage.setItem("token", data.token);
-                this.$router.push('/main');
+                console.log(data);
+                if(data == null || data.error){
+                    this.errorNotify('Email or Password is incorrect.');
+                    console.log('sumudod');
+                    
+                } else {
+                    if(data.token){
+                        this.successNotify('Login Successfully');
+                        localStorage.setItem("token", data.token);
+                        this.$router.push('/main');
+                        console.log('sumulod');
+                    }
+                }
             })
         },
     }
@@ -73,7 +82,11 @@ export default {
 }
 .app-login > div:last-child {
     margin-top: calc(100%/1.5);
-    padding: 0 15px;
+     padding: 0 15px;
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 25px; */
 }
 .app-login-form {
     padding: 0 15px;

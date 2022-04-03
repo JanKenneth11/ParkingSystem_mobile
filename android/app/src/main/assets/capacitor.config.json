@@ -1,6 +1,6 @@
 {
 	"appId": "smart.parking.system.app.nwssu",
-	"appName": "ParkingSystemMobile",
+	"appName": "Smart Parking System",
 	"webDir": "dist",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",

@@ -19,7 +19,7 @@
 </template>
 <script>
 // import { QrcodeStream} from 'vue-qrcode-reader';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+// import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { Camera } from '@capacitor/camera';
 import { chevronBackOutline} from 'ionicons/icons';
 
@@ -103,16 +103,16 @@ export default {
         closeModal(){
             return modalController.dismiss();
         },
-        async startScan() {
-              BarcodeScanner.hideBackground(); // make background of WebView transparent
-            document.body.classList.add("qrscanner"); // add the qrscanner class to body
-            const result = await BarcodeScanner.startScan(); // startscan
-            document.body.classList.remove("qrscanner"); // remove the qrscanner from the body
+        // async startScan() {
+        //       BarcodeScanner.hideBackground(); // make background of WebView transparent
+        //     document.body.classList.add("qrscanner"); // add the qrscanner class to body
+        //     const result = await BarcodeScanner.startScan(); // startscan
+        //     document.body.classList.remove("qrscanner"); // remove the qrscanner from the body
          
-            if(result.hasContent){
-                console.log(result.hasContent);
-            }
-        }
+        //     if(result.hasContent){
+        //         console.log(result.hasContent);
+        //     }
+        // }
     }
 }
 </script>

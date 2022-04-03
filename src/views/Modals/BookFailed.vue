@@ -12,6 +12,7 @@
     </confirmation-layout>
 </template>
 <script>
+import { IonIcon } from '@ionic/vue';
 import { closeCircleOutline } from 'ionicons/icons';
 
 export default {
@@ -23,6 +24,7 @@ export default {
         }
     },
     components: {
+        IonIcon,
     },
     data:() => ({
         closeCircleOutline,

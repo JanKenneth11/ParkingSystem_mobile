@@ -10,30 +10,30 @@
                 <br/>
                 <ion-row class="ion-text-uppercase">
                     <ion-col size="12" class="ps-col-grid">
-                        <ion-card class="ps-background-color-secondary"  style="margin: 0;">
+                        <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Reserve 
                                     Number:</span>
                                 <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
                         </ion-card>
-                        <ion-card class="ps-background-color-secondary"  style="margin: 0;">
+                        <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Department 
                                     Name:</span>
-                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.department.abbreviation}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                     <ion-col size="12" class="ps-col-grid">
-                        <ion-card class="ps-background-color-secondary"  style="margin: 0;">
+                        <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Parking 
                                     Space Code: </span>
                                 <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
                         </ion-card>
-                         <ion-card class="ps-background-color-secondary"  style="margin: 0;">
+                         <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Vehicle Type:</span>
                                 <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.type}}</strong></p>
@@ -56,7 +56,7 @@
                                     <p>{{getMonthFromDate(getData.start_date)}}</p>
                                     <span>{{getDayFromDate(getData.start_date)}}</span>
                                 </div>
-                                <ion-datetime v-model="getData.start_date" display-format="MMMM DD" style="height: 100%;"></ion-datetime>
+                                <ion-datetime v-model="getData.start_date" display-format="MMMM DD" :min="minDate" style="height: 100%;" @IonChange="changeDate($event)"></ion-datetime>
                             </ion-card-content>
                         </ion-card>
                         <ion-label class="ps-custom-label">To</ion-label>
@@ -66,13 +66,13 @@
                                     <p>{{getMonthFromDate(getData.end_date)}}</p>
                                     <span>{{getDayFromDate(getData.end_date)}}</span>
                                 </div>
-                                <ion-datetime v-model="getData.end_date" display-format="MMMM DD" style="height: 100%;">
-                                </ion-datetime>
+                                <ion-datetime v-model="getData.end_date" display-format="MMMM DD" :min="minDate" :max="maxDate" style="height: 100%;"></ion-datetime>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                     <ion-col size="12">
-                    <br/>
+                    <!-- <br/> -->
+                        <p>Start time: {{start_time}} &amp; End time: {{end_time}}</p>
                         <ion-slides mode="ios" pager="false" :options="slideOpts">
                             <ion-slide v-for="(hour) in hours" :key="hour.value" style="width:104px;">
                                 <ion-button mode="ios" class="ps-slider-buttons ps-background-color-secondary" :class="hour.value == getData.start_time || hour.value == getData.end_time ? 'time-bg-active' : ''" @click="buttonStateGetHour(hour.value)" :disabled="checkTimes(hour.value)" >
@@ -109,9 +109,7 @@ import {
     IonSlides,
 } from '@ionic/vue';
 import { chevronBackOutline, calendarOutline } from 'ionicons/icons';
-import ModalSuccess from '/src/views/Modals/BookSuccess.vue';
-import ModalFailed from '/src/views/Modals/BookFailed.vue';
-// import moment from 'moment';
+import moment from 'moment';
 
 
 export default {
@@ -223,6 +221,10 @@ export default {
                 type: 'pm',
             },
         ],
+        minDate: '',
+        maxDate: '',
+        start_time: '',
+        end_time: '',
     }),
     setup() {
         // Optional parameters to pass to the swiper instance. See http://idangero.us/swiper/api/ for valid options.
@@ -234,19 +236,34 @@ export default {
         return { slideOpts }
     },
     ionViewWillEnter () {
-        // console.log(this.slotConfirmation)
+        console.log(this.slotConfirmation)
         this.getData.slot_id = this.slotConfirmation.id;
         this.getData.user_id = this.$store.getters.user.id;
+        // this.minDate = "2022-04-03T11:00";
 
+        this.minDate = moment().format();
+        console.log(this.minDate);
+        // this.minDate = moment().format();
+        this.maxDate = moment(this.getData.start_date).add(3, 'd').format();
     },
     mounted (){
-        // console.log(this.slotConfirmation);
-        // console.log(this.slotConfirmation.parking_number);
-        // console.log(this.$store.getters.user.id);
+        this.minDate = moment().format();
+        console.log(this.minDate);
+        // this.minDate = moment().format();
+        this.maxDate = moment(this.getData.start_date).add(3, 'd').format();
+
+        console.log(this.slotConfirmation);
         this.getData.slot_id = this.slotConfirmation.id;
         this.getData.user_id = this.$store.getters.user.id;
         console.log(this.getData);
 
+    },
+    watch: {
+        getData: {
+            handler(data){
+                console.log(data)
+            }
+        },
     },
     methods : {
         checkTimes(value){
@@ -272,6 +289,7 @@ export default {
             this.presentLoadingWithOptions();
         },
         async createReservation() {
+            // console.log(this.getData.start_date);
             this.getData.start_date = new Date(this.getData.start_date).toLocaleDateString();
             this.getData.end_date = new Date(this.getData.end_date).toLocaleDateString();
             const loading = await loadingController
@@ -282,55 +300,22 @@ export default {
                 });
             loading.present();
             this.$axios.post('user/v1/reservation/create', this.getData).then(({data}) => {
-                 console.log(data.error);
-                 console.log(this.getData);
-                //  loading.dismiss();
+                 console.log(data);
                 if(data.error){
-                    this.openFailed();
+                    // this.openFailed();
                     loading.dismiss();
+                    this.errorNotify('There was an error upon transaction, Please try again later.');
+                    modalController.dismiss();
+
                 } else {
-                    this.openSuccess();
+                    // this.openSuccess();
                     loading.dismiss();
+                    this.successNotify('Parking slot reserve.');
+                    this.$router.push('/myreservations');
+                    modalController.dismiss();
                 }
              });
             console.log(this.getData);
-        },
-
-        async openSuccess() 
-        {
-            const modal = await modalController
-                .create({
-                component: ModalSuccess,
-                    componentProps: {
-                        slotInfo: this.slotConfirmation,
-                    },
-                })
-            var vm = this;
-            modal.onDidDismiss()
-            .then(() => {
-                // this.test()
-                vm.$router.push('/myreservations');
-                modalController.dismiss();
-                // console.log('gumawas ine');
-            });
-            return modal.present();
-        },
-        async openFailed() 
-        {
-            const modal = await modalController
-                .create({
-                component: ModalFailed,
-                    componentProps: {
-                        slotInfo: this.slotConfirmation,
-                    },
-                })
-            modal.onDidDismiss()
-            .then(() => {
-                // this.test()
-                modalController.dismiss();
-                // console.log('gumawas ine');
-            });
-            return modal.present();
         },
         buttonStateGetHour(value){
             if(this.getData.start_time == ''){
@@ -342,12 +327,42 @@ export default {
             } else {
                 if(this.getData.start_time == value) {
                     this.getData.start_time = '';
+                    this.hourOne = '';
                 }
                 if(this.getData.end_time == value) {
                     this.getData.end_time = '';
+                    this.hourTwo = '';
                 }
             }
-            console.log(this.getData);
+            console.log(value);
+            console.log(this.getData.start_time);
+            console.log(this.getData.end_time);
+            this.temp = [];
+            // if(value){
+                Array.from(this.hours).forEach(element => {
+                    // console.log(element);
+                    if(this.getData.start_time && this.getData.start_time == element.value){
+                        this.hourOne = element;
+                    } else if (this.getData.end_time && this.getData.end_time == element.value) {
+                        this.hourTwo = element;
+                    }
+                });
+                this.start_time = this.hourOne ? this.hourOne.text + ' ' + this.hourOne.type : 'null';
+                this.end_time = this.hourTwo ? this.hourTwo.text + ' ' + this.hourTwo.type : 'null';
+                // console.log(this.returnText);
+            // }
+        },
+        changeDate(e){
+            this.maxDate = moment(e.detail.value).add(3, 'd').format();
+            if(this.getData.end_date == null){
+                this.getData.end_date = '';
+            } else if(this.getData.end_date && this.getData.start_date > this.getData.end_date){
+                this.getData.end_date = this.getData.start_date
+            } else if(this.getData.end_date && this.getData.end_date > this.getData.start_date){
+                this.getData.end_date = this.maxDate;
+            } else {
+                //do nothing
+            }
         },
     },
 }
@@ -381,6 +396,12 @@ export default {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+.ps-date-time ion-col:last-child>p {
+    padding: 0 15px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #fff;
+}
 .confirmation-datetime ion-icon {
     font-size: 25px;
 }
@@ -407,8 +428,8 @@ export default {
     bottom: 2%;
 } */
 .ps-col-grid {
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    justify-content: space-evenly;
     padding: 5px 15px;
     gap: 10px;
 }
@@ -444,6 +465,7 @@ section#main-book-process>div:first-child {
 .ps-slider-buttons{
     width: 90%;
     height: 90px;
+    --background-hover: #fec309;
 }
 .ps-slider-buttons p {
     display: flex;
@@ -488,6 +510,9 @@ ion-datetime {
 .place-btn {
     margin-top: calc(100%/30);
     padding: 0 15px;
+}
+.ps-card-details {
+    width: calc(100%/2);
 }
 .ps-card-content {
     display: flex;

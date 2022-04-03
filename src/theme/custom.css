@@ -34,9 +34,8 @@
     --padding-start: 8px;
     --padding-end: 9px;
     --background: #F2C904;
-}
-
-.ps-back-button:hover {
+    --background-activated: #F2C904;
+    --background-focused: #F2C904;
     --background-hover: #F2C904;
 }
 
@@ -66,6 +65,35 @@ body.qrscanner {
 
 body.qrscanner .scanner-ui {
     display: block;
+    /* height: 25vh; */
+    /* display: block; */
+}
+
+body.qrscanner .scanner-ui p {
+    background-color: #25384A;
+    padding: 15px;
+    color: #F6FBFF;
+}
+
+body.qrscanner .scanner-ui .scanner-filter {
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    height: 36vh;
+    width: 70vw;
+    position: absolute;
+    top: 50%;
+    bottom: 0px;
+    right: 0;
+    left: 50%;
+    margin: auto;
+    transform: translate(-50%, -50%);
+}
+
+body.qrscanner .scanner-ui p {
+    margin: 0;
+    padding: 15px;
+    font-size: 18px;
 }
 
 body.qrscanner .scanner-hide {

@@ -6,6 +6,7 @@ import Main from '../views/MainPages/Main.vue';
 import Settings from '../views/MenuPages/Settings.vue';
 import Reservation from '../views/MenuPages/MyReservations.vue';
 import About from '../views/MenuPages/About.vue';
+import NoInternet from '../views/NoInternet.vue';
 
 const routes = [{
         path: '/',
@@ -49,6 +50,14 @@ const routes = [{
         component: About,
         meta: {
             requiresAuth: true,
+        },
+    },
+    {
+        path: '/no-internet-page',
+        name: '/no-internet-page',
+        component: NoInternet,
+        meta: {
+            requiresAuth: false,
         },
     }
 ]

@@ -24,7 +24,7 @@
     </ion-app>
 </template>
 <script>
-import { IonApp,IonContent, modalController,} from '@ionic/vue';
+import { IonApp,IonContent, modalController, IonButton} from '@ionic/vue';
 // import {closeOutline} from 'ionicons/icons';
 export default {
     props: [
@@ -40,7 +40,7 @@ export default {
     components: {
         IonApp,
         IonContent,
-        // IonButton,
+        IonButton,
         // IonLabel,
         // IonItem,
         // IonIcon,

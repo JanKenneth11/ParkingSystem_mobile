@@ -1,54 +1,53 @@
 <template>
     <ion-menu side="start" type="overlay" menu-id="app-menu" content-id="main-content">
         <ion-content class="menu-content ps-background-color" scroll-y="false">
-            <div class="ion-text-center ps-user-profile">
-                <ion-avatar class="ps-user-avatar" >
-                    <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
-                </ion-avatar>
-                <div>
-                    <h4>{{$store.getters.user.name}}</h4>
-                    <span>{{$store.getters.user.email}}</span>
-                </div>
-                
-            </div>
-            <div id="menu-list" class="ps-background-color">
-                    <ion-item lines="none" button @click="openSettings" class="ps-background-color">
-                         <ion-icon class="ps-icon" :icon="person" slot="start" ></ion-icon>
-                         <ion-label class="ps-label-bold">
-                            My Account
-                         </ion-label>
-                    </ion-item>
-                    <ion-item lines="none" button @click="openMyReservations" class="ps-background-color">
-                         <ion-icon class="ps-icon" :icon="listOutline" slot="start" ></ion-icon>
-                         <ion-label class="ps-label-bold">
-                            My Reservations
-                         </ion-label>
-                    </ion-item>
-                        <!-- <ion-button @click="openSettings" fill="clear" color="dark">
-                            <ion-icon :icon="settingsOutline" slot="start" color="dark"></ion-icon>
-                            Settings
+            <ion-grid>
+                <ion-col>
+                    <div class="ion-text-center ps-user-profile">
+                        <ion-avatar class="ps-user-avatar" >
+                            <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
+                        </ion-avatar>
+                        <div>
+                            <h4>{{$store.getters.user.name}}</h4>
+                            <span>{{$store.getters.user.email}}</span>
+                        </div>
+                        
+                    </div>  
+                </ion-col>
+                <ion-col>
+                    <div id="menu-list" class="ps-background-color">
+                        <ion-item lines="none" button @click="openSettings" class="ps-background-color">
+                            <ion-icon class="ps-icon" :icon="person" slot="start" ></ion-icon>
+                            <ion-label class="ps-label-bold">
+                                My Account
+                            </ion-label>
+                        </ion-item>
+                        <ion-item lines="none" button @click="openMyReservations" class="ps-background-color">
+                            <ion-icon class="ps-icon" :icon="listOutline" slot="start" ></ion-icon>
+                            <ion-label class="ps-label-bold">
+                                My Reservations
+                            </ion-label>
+                        </ion-item>
+                    </div>
+                </ion-col>
+                <!-- <ion-col>
+                     <div class="btn-logout">
+                        <ion-button class="ps-btn" size="large" expand="block" @click="logoutConfirmation">
+                            <ion-icon :icon="logOutOutline" slot="start" ></ion-icon>
+                            Log Out
                         </ion-button>
-                        <ion-button @click="openMyReservations" fill="clear" color="dark">
-                            <ion-icon :icon="bookmarksOutline" slot="start" color="dark"></ion-icon>
-                            My Reservations
-                        </ion-button>
-                        <ion-button fill="clear" color="dark">
-                            <ion-icon :icon="helpCircleOutline" slot="start" color="dark"></ion-icon>
-                            <a href="mailto:vjankenneth@gmail.com">Help</a>
-                        </ion-button>
-                        <ion-button @click="openAbout" fill="clear" color="dark">
-                            <ion-icon :icon="informationCircleOutline" slot="start" color="dark"></ion-icon>
-                            About
-                        </ion-button> -->
-            </div>
-            
-            <div class="btn-logout">
-                <ion-button class="ps-btn" size="large" expand="block" @click="logoutConfirmation">
-                    <!-- <ion-icon :icon="logOutOutline" slot="start" ></ion-icon> -->
-                    Log Out
-                </ion-button>
-            </div>
+                    </div>
+                </ion-col> -->
+            </ion-grid>
         </ion-content>
+        <ion-footer class="menu-footer ion-no-border" mode="ios">
+        <ion-toolbar class="ps-background-color">
+            <ion-button class="ps-btn" size="large" expand="block" @click="logoutConfirmation">
+                <!-- <ion-icon :icon="logOutOutline" slot="start" ></ion-icon> -->
+                Log Out
+            </ion-button>
+        </ion-toolbar>
+        </ion-footer>
     </ion-menu>
 </template>
 
@@ -168,7 +167,7 @@ export default {
         align-items: center;
         padding: 100px 20px 30px;
         background: #222428;
-        color: #fff;
+        color: #F6FBFF;
     }
     .user-profile>div {
         margin-left: 10px;
@@ -187,11 +186,11 @@ export default {
         padding: 25px;
     }
     .ps-user-profile div h4 {
-        color: #fff;
+        color: #F6FBFF;
         margin: 20px 0 12px 0;
     }
     .ps-user-profile div span {
-        color: #fff;
+        color: #F6FBFF;
         padding: 10px 15px;
         background: #314355;
         border-radius: 8px;
@@ -217,12 +216,30 @@ export default {
     #menu-list ion-item:first-child {
         border-top: 1px solid #5D6974;
     }
-    .btn-logout {
+    /* .btn-logout {
         margin: 0 15px;
+        margin-top: 31vh;
         margin-top: calc(100%/0.91);
     }
     .btn-logout .ps-btn {
         --background: #D21F1F;
         --color: #F6FBFF;
+    } */
+    ion-footer.menu-footer {
+        padding: 15px;
+        background-color: #25384A;
+        --ion-background-color: #25384a;
+        /* --border: none !important; */
+    }
+    ion-footer ion-toolbar.ps-background-color .ps-btn {
+        --background: #D21F1F !important;
+        --background-activated: #D21F1F !important;
+        --background-focused: #D21F1F !important;
+        --background-hover: #D21F1F !important;
+        --color: #F6FBFF !important;
+        color: #F6FBFF !important;
+        --color-activated: #F6FBFF !important;
+        --color-focused: #F6FBFF !important;
+        --color-hover: #F6FBFF !important;
     }
 </style>

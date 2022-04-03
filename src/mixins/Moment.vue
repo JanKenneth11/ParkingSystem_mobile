@@ -27,6 +27,12 @@ export default {
                 return moment(date).format('MMMM');
             }
         },
+        checkIfToday(date){
+            let created = moment(date)
+            let today = moment().format('l')
+            // console.log(created,today,created.isSame(today, 'day'))
+            return created.isSame(today);
+        },
         getDayFromDate(date) {
             // console.log(date);
             if(date == null || date == ''){

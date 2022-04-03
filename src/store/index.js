@@ -38,7 +38,7 @@ const store = createStore({
                 }
             } catch (error) {
                 commit('SET_USER', null)
-                localStorage.removeItem("token");
+                    // localStorage.removeItem("token");
                 localStorage.removeItem("user_type");
             }
         }

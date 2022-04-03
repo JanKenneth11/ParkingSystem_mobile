@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router';
 import store from './store';
 import Moment from './mixins/Moment.vue';
+import Toast from './mixins/Toast.vue';
 import axios from './axios';
 import ModalLayout from './components/ConfirmationLayout.vue';
 import TypeLayout from './components/BookingTypesLayout.vue';
@@ -39,6 +40,7 @@ app.config.globalProperties.$axios = axios;
 app.component('confirmation-layout', ModalLayout)
 app.component('type-layout', TypeLayout)
 app.mixin(Moment);
+app.mixin(Toast);
 router.isReady().then(() => {
     app.mount('#app');
 });

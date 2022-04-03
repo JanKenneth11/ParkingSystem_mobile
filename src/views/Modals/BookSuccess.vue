@@ -12,6 +12,8 @@
     </confirmation-layout>
 </template>
 <script>
+import { IonIcon } from '@ionic/vue';
+
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
 export default {
@@ -21,6 +23,9 @@ export default {
             required: true,
             type: Object,
         }
+    },
+    components: {
+        IonIcon,
     },
      data:() => ({
         checkmarkCircleOutline,

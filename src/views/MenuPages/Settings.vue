@@ -3,7 +3,7 @@
         <ion-content class="ps-background-color">
             <section id="main-profile">
                 <div>
-                    <ion-button class="ps-back-button ps-input-border-radius" router-link="/main" slot="start" mode="ios">
+                    <ion-button class="ps-back-button ps-input-border-radius" @click="backToMain()" slot="start" mode="ios">
                         <ion-icon class="ps-back-button-icon" slot="icon-only" :icon="chevronBackOutline"></ion-icon>
                     </ion-button>
                 </div>
@@ -12,14 +12,18 @@
                     <ion-label>My Account</ion-label>
                 </div>
                 <div>
-                    <ion-avatar class="ps-user-img" v-if="$store.getters.user.image == '' | $store.getters.user.image == null">
+                    <!-- <ion-avatar class="ps-user-img" v-if="$store.getters.user.image == '' | $store.getters.user.image == null">
                         <ion-img src="/assets/img/no-image/png"></ion-img>
                     </ion-avatar>
                     <ion-avatar class="ps-user-img" v-else>
                         <ion-img :src="'http://18.223.235.134/storage/' + $store.getters.user.image"></ion-img>
+                    </ion-avatar> -->
+                    <ion-avatar class="ps-user-img">
+                        <ion-img :src="isNewImage ? user.image : 'http://18.223.235.134/storage/' +  user.image"></ion-img>
+                        <!-- <ion-img :src="user.image ? user.image : ($store.getters.user.image ? $store.getters.user.image :'/assets/img/person-icon.png')"></ion-img> -->
                     </ion-avatar>
                     <div>
-                        <ion-button class="ps-btn">
+                        <ion-button class="ps-btn" @click="uploadOrTakePhoto">
                             Change Profile
                         </ion-button>
                         <ion-label class="ps-font-italic">
@@ -31,37 +35,40 @@
                     <div>
                     <ion-label>Name:</ion-label>
                     <ion-item class="ps-background-color">
-                        <ion-input @ionInput="updateUser.name = $event.target.value;" :value="$store.getters.user.name" ></ion-input>
+                        <ion-input @ionBlur="updateUserInfo" @ionInput="user.name = $event.target.value;" :value="$store.getters.user.name" ></ion-input>
                         <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img>
                     </ion-item>
                     </div>
                     <div>
                     <ion-label>Email:</ion-label>
                     <ion-item class="ps-background-color">
-                        <ion-input @ionInput="updateUser.email = $event.target.value;" :value="$store.getters.user.email" ></ion-input>
+                        <ion-input @ionBlur="updateUserInfo" @ionInput="user.email = $event.target.value;" :value="$store.getters.user.email" ></ion-input>
                         <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img>
                     </ion-item>
                     </div>
+                    <div>
+                    <ion-label>Type:</ion-label>
+                    <ion-item class="ps-background-color">
+                        <ion-input @ionBlur="updateUserInfo" @ionInput="user.email = $event.target.value;" :value="$store.getters.user.type" disabled ></ion-input>
+                        <!-- <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img> -->
+                    </ion-item>
+                    </div>
+                    <div>
+                    <ion-label>User ID(RFID):</ion-label>
+                    <ion-item class="ps-background-color">
+                        <ion-input @ionBlur="updateUserInfo" @ionInput="user.email = $event.target.value;" :value="$store.getters.user.rfid_number" disabled ></ion-input>
+                        <!-- <ion-img src="/assets/img/edit.png" slot="end" color="warning"></ion-img> -->
+                    </ion-item>
+                    </div>
                 </div>
-                <!-- <ion-card>
-                    <ion-card-content>
-                        <ion-item lines="none">
-                            <ion-icon  :icon="person" slot="start"></ion-icon>
-                            <ion-input @ionInput="updateUser.name = $event.target.value;" :value="$store.getters.user.name"></ion-input>
-                        </ion-item>
-                        <ion-item lines="none">
-                            <ion-icon  :icon="mail" slot="start"></ion-icon>
-                            <ion-input @ionInput="updateUser.email = $event.target.value;" :value="$store.getters.user.email"></ion-input>
-                        </ion-item>
-                    </ion-card-content>
-                </ion-card> -->
             </section>
         </ion-content>
     </ion-page>
 </template>
 <script>
-import {IonPage, /* IonHeader, IonBackButton, IonTitle, IonToolbar, */ IonContent, IonInput, IonItem, IonButton, IonIcon, /* IonCard, */ /* toastController, loadingController */ } from '@ionic/vue';
+import {IonPage, /* IonHeader, IonBackButton, IonTitle, IonToolbar, */ IonContent, IonInput, IonItem, IonButton, IonIcon, IonLabel, IonAvatar, IonImg /* IonCard, */ /* toastController, loadingController */ } from '@ionic/vue';
 import {cardOutline, mail, lockClosed, transgender, calendar, person, chevronBackOutline} from 'ionicons/icons';
+import { Camera, CameraResultType,CameraSource} from '@capacitor/camera';
 
 export default {
     setup() {
@@ -69,40 +76,75 @@ export default {
     },
     data:() => ({
         cardOutline, mail, lockClosed, transgender, calendar, person, chevronBackOutline,
-        updateUser: {
+        // updateUser: {},
+        user: {
+            id: null,
             name: '',
+            type: '',
             email: '',
+            rfid_number: '',
+            image: null,
         },
+        isNewImage: false,
     }),
     ionViewWillEnter () {
-      console.log(this.$store.getters.user);
-    //   this.setCustomer()
+        this.userInfo();
+      console.log(JSON.parse(JSON.stringify(this.$store.getters.user)));
     },
     mounted() {
-        console.log(this.$store.getters.user);
-        // this.setCustomer()
+        this.userInfo();
+        console.log(JSON.parse(JSON.stringify(this.$store.getters.user)));
     },
     components: {
-        IonPage, /* IonHeader, IonBackButton, IonTitle, IonToolbar, */ IonContent, IonInput, IonItem, IonButton, IonIcon, /* IonCard, */
+        IonPage, /* IonHeader, IonBackButton, IonTitle, IonToolbar, */ IonContent, IonInput, IonItem, IonButton, IonIcon, IonLabel, IonAvatar, IonImg /* IonCard, */
     },
     watch: {
-        updateUser : {
+        user : {
         handler(val) {
-            console.log(val.name,"name")
-            console.log(val.email,"email")
+            console.log(val)
         },
         deep : true,
         }
     },
     methods: {
         userInfo(){
-            let temp = JSON.parse(JSON.stringify(this.$store.getters.user))
-            this.updateUser.name = temp.name 
-            this.updateUser.email = temp.email   
+            this.user = JSON.parse(JSON.stringify(this.$store.getters.user))
+            // this.user.id = JSON.parse(JSON.stringify(this.$store.getters.user.id))
+            // this.user.name = JSON.parse(JSON.stringify(this.$store.getters.user.name))
+            // this.user.type = JSON.parse(JSON.stringify(this.$store.getters.user.type))
+            // this.user.email = JSON.parse(JSON.stringify(this.$store.getters.user.email))
+            // this.user.rfid_number = JSON.parse(JSON.stringify(this.$store.getters.user.rfid_number))
+            // this.user.image = JSON.parse(JSON.stringify(this.$store.getters.user.image))
+            console.log(this.user)
+            // console.log(this.user)
+        },
+        async uploadOrTakePhoto() {
+            const image = await Camera.getPhoto({
+                quality: 90,
+                allowEditing: true,
+                source: CameraSource.Camera,
+                resultType: CameraResultType.Base64,
+            });
+
+            this.user.image ="data:image/jpeg;base64," + image.base64String;
+            this.isNewImage = true;
+            // console.log()
+            this.updateUserInfo();
         },
         updateUserInfo(){
-            console.log(this.updateUser);
+            console.log(this.user);
+            this.$axios.post('user/v1/user/update/'+this.user.id,this.user).then(({data}) => {
+                if(!data.error){
+                    this.successNotify('Update Successful');
+                } else {
+                    this.errorNotify('Error on updating. Try again.');
+                }
+            })
         },
+        backToMain() {
+            this.$router.push('/main');
+            this.isNewImage = false;
+        }
     }
 }
 </script>

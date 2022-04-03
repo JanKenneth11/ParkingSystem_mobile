@@ -10,14 +10,15 @@
                         <ion-img alt="logo" src="/assets/img/Logo-big.png"></ion-img>
                         <!-- <img alt="logo" id="header_logo" height="40" src="/assets/img/Logo-big.png"> -->
                     </ion-title>
-                    <ion-button class="ps-hover-remove" mode='ios' fill="clear" slot="end">
+                    <!-- <ion-button class="ps-hover-remove" mode='ios' fill="clear" slot="end"> -->
                     <!-- <ion-button class="ps-hover-remove" mode='ios' @click="openMenu" fill="clear" slot="end"> -->
-                         <ion-badge class="ps-badge" color="danger">1</ion-badge>
+                         <!-- <ion-badge class="ps-badge" color="danger">1</ion-badge>
                         <ion-icon :icon="notifications" slot="icon-only" color="light"></ion-icon>
-                    </ion-button>
+                    </ion-button> -->
                 <!-- </ion-col> -->
             </ion-toolbar>
         </ion-header>
+        
          <ion-content force-overscroll="false" overflow-scroll="false" class="ps-background-color ion-padding">
              <section id="dashboard">
                 <div class="ps-background-color">
@@ -41,19 +42,19 @@
                 <div class="ps-parking-slots ps-background-color-secondary">
                     <ion-grid class="ion-text-center ps-slots">
                         <ion-row class="ion-justify-content-between">
-                            
-                            <ion-col size="5" v-for="(slot,i) in parkingSpot" :key="slot.id">
-                                <div class="avail" v-if="slot.status == 1">
-                                    <ion-button mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'"><ion-label :style="slot.selected ? 'color:#000;' : 'color:#F6FBFF;'">{{slot.parking_number}}</ion-label></ion-button>
-                                </div>
-                                <div class="occu" v-else-if="slot.status == 2">
-                                    <!-- <ion-button expand="block"><ion-label>{{slot.parking_number}}</ion-label></ion-button> -->
-                                    <ion-img v-if="slot.type == 'Car'" src="/assets/img/car.png"></ion-img>
-                                    <ion-img v-else-if="slot.type == 'Motor'" src="/assets/img/motorcycle.png"></ion-img>
-                                </div>
-                                <div class="resv" v-else-if="slot.status == 3">
-                                    <ion-button expand="block" disabled color="medium"><ion-icon :icon="lockClosed" slot="icon-only"></ion-icon></ion-button>
-                                </div>
+                            <ion-col size="5" v-for="(slot,i) in parkingSpot" :key="slot.id" :class="(i) % 10 == 0 || (i-1) % 10 == 0 ? 'margin' : ''">
+                                    <div class="avail" v-if="slot.status == 1">
+                                        <ion-button v-if="slot.slotFor == userType" mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'"><ion-label :style="slot.selected ? 'color:#000;' : 'color:#F6FBFF;'">{{slot.parking_number}}</ion-label></ion-button>
+                                        <ion-button v-else mod="ios" class="loii-btn" expand="block" :color="slot.selected ? 'warning' : 'light'" @click="buttonState(i)" :fill="slot.selected ? 'solid' : 'clear'" disabled><ion-label :style="slot.selected ? 'color:#000;' : 'color:#F6FBFF;'">{{slot.parking_number}}</ion-label></ion-button>
+                                    </div>
+                                    <div class="occu" v-else-if="slot.status == 2">
+                                        <!-- <ion-button expand="block"><ion-label>{{slot.parking_number}}</ion-label></ion-button> -->
+                                        <ion-img v-if="slot.type == 'Car'" src="/assets/img/car.png"></ion-img>
+                                        <ion-img v-else-if="slot.type == 'Motor'" src="/assets/img/motorcycle.png"></ion-img>
+                                    </div>
+                                    <div class="resv" v-else-if="slot.status == 3">
+                                        <ion-button expand="block" disabled color="medium"><ion-icon :icon="lockClosed" slot="icon-only"></ion-icon></ion-button>
+                                    </div>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
@@ -67,22 +68,21 @@
 </template>
 <script>
 import {
-    IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonBadge, IonIcon,  IonSelect, IonSelectOption, IonLabel, modalController ,menuController, alertController
+    IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonIcon,  IonSelect, IonSelectOption, IonLabel, modalController ,menuController, alertController
     } from '@ionic/vue';
-import {menuOutline, lockClosed, arrowUpOutline, carOutline, notifications,
+import {menuOutline, lockClosed, arrowUpOutline, carOutline, notifications, chevronDownCircleOutline
 } from 'ionicons/icons';
 import ModalBookingSteps from '/src/views/Modals/BookingSteps.vue';
 import ModalSuccess from '/src/views/Modals/BookSuccess.vue';
 import ModalFailed from '/src/views/Modals/BookFailed.vue';
-// import moment from 'moment'
 
 export default {
     setup() {
-        
     },
     data: () => ({
         menuOutline,
         notifications,
+        chevronDownCircleOutline,
         lockClosed,
         arrowUpOutline,
         carOutline,
@@ -101,27 +101,39 @@ export default {
             end_time: 20,
         },
         date: Date.now(),
+        userType: '',
     }),
     ionViewWillEnter () {
         this.init();
         this.getData.user_id = this.$store.getters.user.id;
+        this.userType = this.$store.getters.user.type == 'Student' || this.$store.getters.user.type == 'Teacher' ? 'Public':'Guest';
+        console.log(this.$store.getters.user.type);
     },
     mounted (){
+        console.log(this.$store.getters.user.type);
+        if(this.$store.getters.user.type == 'Student' || this.$store.getters.user.type == 'Teacher'){
+            this.userType = 'Public';
+        } else {
+            this.userType = 'Guest';
+        }
+        console.log(this.userType);
         this.init();
         this.getData.user_id = this.$store.getters.user.id;
     },
     
     components: {
-        IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonBadge, IonIcon,  IonSelect, IonSelectOption, IonLabel, 
+        IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonTitle, IonCol, IonImg, IonButton, IonIcon,  IonSelect, IonSelectOption, IonLabel, 
     },
     watch: {
         selectedDep: {
             handler(data){
-                this.getParkingSlotsByDepartment(data)
+                console.log(data)
+                this.getParkingSlotsByDepartment(data, this.selectedType)
             }
         },
         selectedType: {
             handler(data){
+                console.log(data);
                 this.segmentChanged(data);
             }
         },
@@ -137,6 +149,7 @@ export default {
                     this.types
                 }
                 this.getParkingSlotsByDepartment(this.selectedDep)
+
             });
         },
         async openSuccess() 
@@ -177,19 +190,25 @@ export default {
         async getParkingSlotsByDepartment(id,v_type = "All"){
             var vm = this;
             this.$axios.get('user/v1/department/show/'+id).then(({data}) => {
+                console.log(data);
                 vm.parkingSpot = v_type == "All" ? data.parking_slots : data.parking_slots.filter(parking_slot => parking_slot.type == v_type)
-
+                // if(v_type == "All") {
+                //     vm.parkingSpot = data.parking_slots 
+                // } else { 
+                //     vm.parkingSpot = data.parking_slots.filter(parking_slot => parking_slot.type == v_type)
+                // }
             });
         },
         proceed() {
-            if(Object.keys(this.selectedSlot).length === 0) {
-                this.warningAlert();
-            } else {
+            // if(Object.keys(this.selectedSlot).length === 0) {
+            //     this.warningAlert();
+            // } else {
                 this.typeAlert();
-            }
+            // }
         },
         async bookASpot() 
         {
+            console.log(this.departments);
             const modal = await modalController
                 .create({
                 component: ModalBookingSteps,
@@ -203,19 +222,19 @@ export default {
             });
             return modal.present();
         },
-        async warningAlert() {
-            const alert = await alertController
-                .create({
-                header: 'Warning!',
-                subHeader: 'No Parking Spot selected',
-                message: 'You didn\'t select any parking spot, please select a parking spot.',
-                buttons: ['OK'],
-                });
-            await alert.present();
+        // async warningAlert() {
+        //     const alert = await alertController
+        //         .create({
+        //         header: 'Warning!',
+        //         subHeader: 'No Parking Spot selected',
+        //         message: 'You didn\'t select any parking spot, please select a parking spot.',
+        //         buttons: ['OK'],
+        //         });
+        //     await alert.present();
 
-            const { role } = await alert.onDidDismiss();
-            console.log('onDidDismiss resolved with role', role);
-        },
+        //     const { role } = await alert.onDidDismiss();
+        //     console.log('onDidDismiss resolved with role', role);
+        // },
         async typeAlert() {
             var vm = this;
             const alert = await alertController
@@ -240,18 +259,26 @@ export default {
                             text: 'OK',
                             handler: (data) => {
                                 if(data == 1){
-                                    this.bookASpot();
+                                    vm.bookASpot();
                                 } 
                                 if(data == 2) {
                                     vm.getData.start_date = new Date(vm.date).toLocaleDateString();
                                     vm.getData.end_date = new Date(vm.date).toLocaleDateString();
                                     vm.getData.slot_id = vm.selectedSlot.id;
-
+                                    console.log('sumulod');
+                                    console.log(vm.getData);
+                                    // vm.openSuccess();
                                     this.$axios.post('user/v1/reservation/create', vm.getData).then(({data}) => {
-                                        if(data.error){
-                                            this.openFailed();
+                                        console.log(data);
+                                        if(!data){
+                                            // this.openFailed();
+                                            vm.init();
+                                            vm.successNotify('Parking slot reserve.');
+                                            vm.$router.push('/myreservations');
                                         } else {
-                                            this.openSuccess();
+                                            vm.init();
+                                            vm.errorNotify(data);
+                                            // vm.openSuccess();
                                         }
                                     });
                                 }
@@ -264,6 +291,8 @@ export default {
         },
         buttonState(i)
         {
+            console.log(this.parkingSpot)
+
             this.parkingSpot.forEach(element => {
                 element.selected = false;
             });            
@@ -284,6 +313,23 @@ export default {
 </script>
 <style>
 /* new css */
+.margin {
+    margin-top: 50px;
+    border-top: 3.5px dashed #fff !important;
+}
+ion-refresher,
+ion-refresher-content {
+  /* padding-bottom: 200px; */
+  background-color: #25384A;
+  --color: #fff;
+}
+ion-refresher-content .refresher-pulling {
+    position: fixed;
+    top: 50px;
+  }
+.margin:first-of-type, .margin:nth-of-type(2) {
+    margin-top: 0;
+}
 .ps-badge {
     position: absolute;
     top: 8px;
@@ -314,7 +360,18 @@ ion-title.ps-background-image {
     background: #314355;
     padding: 30px;
     margin: 30px auto auto auto;
-    overflow: scroll;
+    overflow-y: scroll;
+}
+.ps-parking-slots::-webkit-scrollbar {
+    width: 30px;
+}
+.ps-parking-slots::-webkit-scrollbar-track:vertical {
+    background: #465B70;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.ps-parking-slots::-webkit-scrollbar-thumb {
+    background: #314355;
 }
 .ps-filter {
     background: #fff;
@@ -345,9 +402,9 @@ ion-select::part(icon) {
 .ps-slots ion-col:not(:first-child):not(:nth-child(2)) {
     border-top: 0;
 }
-section#dashboard .ps-btn-footer-action {
+/* section#dashboard .ps-btn-footer-action {
     padding: 0;
-}
+} */
 .ps-hover-remove ion-icon {
     color: #F6FBFF !important;
 }
@@ -362,6 +419,10 @@ section#dashboard .ps-btn-footer-action {
     height: 100%;
     transform: scale(1.5);
     padding: 10px;
+}
+.ps-slots ion-col:nth-child(odd) .occu {
+    -webkit-transform: scale(-1.5);
+    transform: scale(-1.5);
 }
 .resv ion-button, .avail ion-button {
     height: 46px;
