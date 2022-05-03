@@ -43,6 +43,23 @@ export default {
         },
         getHoursFromDay(){
             
+        },
+        checkTimeToday(date){
+            var dateToday = moment().format('L');
+            var staticEndTime = "20:00";
+            var staticStartTime = "6:00";
+            var closing = moment(dateToday + ' ' + staticEndTime).format();
+            var start = moment(dateToday + ' ' + staticStartTime).format();
+            // var now = moment(date).add(12, 'hours').format();
+            var now = date;
+            console.log(now);
+            console.log(closing);
+            console.log(dateToday);
+            if(now && now >= start && now <= closing){
+                return false;
+            } else {
+                return true;
+            }
         }
 
     }

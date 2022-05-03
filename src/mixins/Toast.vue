@@ -11,7 +11,7 @@ export default {
             const toast = await toastController
                 .create({
                     message: message,
-                    duration: 1000,
+                    duration: 1500,
                     color: "success",
                     position: "top",
                 })
@@ -21,7 +21,7 @@ export default {
            const toast = await toastController
                 .create({
                     message: message,
-                    duration: 1000,
+                    duration: 1500,
                     color: "danger",
                     position: "top",
                 })

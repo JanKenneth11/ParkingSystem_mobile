@@ -10,18 +10,18 @@
                 <br/>
                 <ion-row class="ion-text-uppercase">
                     <ion-col size="12" class="ps-col-grid">
-                        <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
+                        <!-- <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Reserve 
                                     Number:</span>
                                 <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.parking_number}}</strong></p>
                             </ion-card-content>
-                        </ion-card>
+                        </ion-card> -->
                         <ion-card class="ps-card-details ps-background-color-secondary"  style="margin: 0;">
                             <ion-card-content class="ps-card-content" style="padding: 18px 15px;">
                                 <span>Department 
                                     Name:</span>
-                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.department.abbreviation}}</strong></p>
+                                <p class="ps-card-content"><strong style="color: #fff;">{{slotConfirmation.department.name}}</strong></p>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
@@ -239,18 +239,29 @@ export default {
         console.log(this.slotConfirmation)
         this.getData.slot_id = this.slotConfirmation.id;
         this.getData.user_id = this.$store.getters.user.id;
-        // this.minDate = "2022-04-03T11:00";
-
-        this.minDate = moment().format();
-        console.log(this.minDate);
-        // this.minDate = moment().format();
-        this.maxDate = moment(this.getData.start_date).add(3, 'd').format();
+        if(this.checkTimeToday(moment().format())){
+            this.minDate = moment().add(1, 'days').format();
+        } else {
+            this.minDate = moment().format();
+        }
+        if(this.getData.start_date){
+            this.maxDate = moment(this.getData.start_date).add(2, 'd').format();
+        } else {
+            this.maxDate = moment().add(3, 'days').format();
+        }
     },
     mounted (){
-        this.minDate = moment().format();
+        if(this.checkTimeToday(moment().format())){
+            this.minDate = moment().add(1, 'd').format();
+        } else {
+            this.minDate = moment().format();
+        }
+        if(this.getData.start_date){
+            this.maxDate = moment(this.getData.start_date).add(2, 'd').format();
+        } else {
+            this.maxDate = moment().add(3, 'days').format();
+        }
         console.log(this.minDate);
-        // this.minDate = moment().format();
-        this.maxDate = moment(this.getData.start_date).add(3, 'd').format();
 
         console.log(this.slotConfirmation);
         this.getData.slot_id = this.slotConfirmation.id;
@@ -304,13 +315,13 @@ export default {
                 if(data.error){
                     // this.openFailed();
                     loading.dismiss();
-                    this.errorNotify('There was an error upon transaction, Please try again later.');
+                    this.errorNotify('Reservation Failed. Try again.');
                     modalController.dismiss();
 
                 } else {
                     // this.openSuccess();
                     loading.dismiss();
-                    this.successNotify('Parking slot reserve.');
+                    this.successNotify('Reserve Successfully');
                     this.$router.push('/myreservations');
                     modalController.dismiss();
                 }
@@ -338,9 +349,7 @@ export default {
             console.log(this.getData.start_time);
             console.log(this.getData.end_time);
             this.temp = [];
-            // if(value){
                 Array.from(this.hours).forEach(element => {
-                    // console.log(element);
                     if(this.getData.start_time && this.getData.start_time == element.value){
                         this.hourOne = element;
                     } else if (this.getData.end_time && this.getData.end_time == element.value) {
@@ -349,7 +358,6 @@ export default {
                 });
                 this.start_time = this.hourOne ? this.hourOne.text + ' ' + this.hourOne.type : 'null';
                 this.end_time = this.hourTwo ? this.hourTwo.text + ' ' + this.hourTwo.type : 'null';
-                // console.log(this.returnText);
             // }
         },
         changeDate(e){
@@ -427,6 +435,9 @@ export default {
     right: 0;
     bottom: 2%;
 } */
+.ps-col-grid:first-of-type {
+    display: block;
+}
 .ps-col-grid {
     display: flex;
     justify-content: space-evenly;
@@ -510,6 +521,9 @@ ion-datetime {
 .place-btn {
     margin-top: calc(100%/30);
     padding: 0 15px;
+}
+.ps-col-grid:first-of-type .ps-card-details {
+    width: 100%;
 }
 .ps-card-details {
     width: calc(100%/2);
